@@ -1,0 +1,218 @@
+/* Conteneur principal */
+.bulletin-container {
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f3f4f6; /* gris clair */
+  font-family: Arial, sans-serif;
+}
+
+/* Carte principale */
+.bulletin-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 15px;
+}
+
+.toolbar h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.toolbar button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.print-btn { background-color: #1d4ed8; color: white; }
+.pdf-btn { background-color: #16a34a; color: white; font-weight: bold; }
+
+/* Contenu du bulletin */
+#bulletin-content {
+  padding: 30px;
+}
+
+/* Header */
+.bulletin-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Colonne gauche - logo */
+.header-left {
+  width: 30%;
+  border: 2px dashed #d1d5db;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 10px;
+}
+
+.header-left img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 5px;
+}
+
+.header-left span {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Colonne centre - école */
+.header-center {
+  width: 30%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-center h2 {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #1e3a8a;
+}
+
+.header-center p {
+  margin: 2px 0;
+}
+
+.header-center div {
+  margin-top: 5px;
+  border-top: 1px solid black;
+  padding-top: 3px;
+}
+
+/* Colonne droite - élève */
+.header-right {
+  width: 30%;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.header-right div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #d1d5db;
+  margin-bottom: 5px;
+  padding-bottom: 2px;
+}
+
+.header-right .text-lg {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1e3a8a;
+  text-transform: uppercase;
+}
+
+/* Tableau des notes */
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: center;
+}
+
+.grades-table th,
+.grades-table td {
+  border: 1px solid black;
+  padding: 4px;
+}
+
+.grades-table thead tr {
+  background-color: #e5e7eb;
+}
+
+.grades-table tfoot tr {
+  background-color: #1e3a8a;
+  color: white;
+  font-weight: bold;
+}
+
+.grades-table tfoot td {
+  border: 1px solid black;
+}
+
+/* Pied de page */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Bloc assiduité / conseil */
+.footer-block {
+  border: 1px solid black;
+}
+
+.footer-block .header {
+  background-color: #e5e7eb;
+  border-bottom: 1px solid black;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px;
+}
+
+.footer-block input[type="text"] {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #9ca3af;
+  padding: 2px;
+}
+
+/* Zone signatures */
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  margin-top: 10px;
+  height: 120px;
+}
+
+.signatures div {
+  width: 30%;
+  text-align: center;
+  text-decoration: underline;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+/* Styles impression */
+@media print {
+  .print-hidden { display: none !important; }
+  body { font-family: Arial, sans-serif; }
+  .header-center h2 { color: black; }
+  .header-left, .header-center, .header-right { border-color: black !important; }
+  .grades-table thead tr { background-color: white !important; }
+  .grades-table tfoot tr { background-color: black !important; color: white !important; }
+}
