@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { Download, Printer, FileSpreadsheet } from 'lucide-react';
-import html2pdf from 'html2pdf.js';
-import cipLogo from './assets/CIP.jpg';
-import './BulletinGenerator.css';
 
 const BulletinGenerator = () => {
   const [headerInfo, setHeaderInfo] = useState({
@@ -38,7 +35,6 @@ const BulletinGenerator = () => {
     blame: false
   });
 
-  // Calculs automatiques
   const calculateRow = (subject) => {
     const moyInterro = (parseFloat(subject.n1 || 0) + parseFloat(subject.n2 || 0)) / 2;
     const moyTrimestre = ((moyInterro + parseFloat(subject.compo || 0)) / 2).toFixed(2);
@@ -51,161 +47,219 @@ const BulletinGenerator = () => {
   const totalPoints = rowsWithCalcs.reduce((acc, curr) => acc + parseFloat(curr.points), 0);
   const moyenneGenerale = (totalPoints / totalCoeff).toFixed(2);
 
-  // Export PDF
-  const exportToPDF = () => {
-    const element = document.getElementById('bulletin-content');
-    const opt = {
-      margin: 0.5,
-      filename: 'Bulletin_Scolaire.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-  };
-
   const handleSubjectChange = (index, field, value) => {
     const newSubjects = [...subjects];
     newSubjects[index][field] = value;
     setSubjects(newSubjects);
   };
 
+  const downloadPDF = () => {
+    window.print();
+  };
+
   return (
-    <div className="bulletin-container">
-      <div className="bulletin-card">
+    <div style={{ minHeight: '100vh', padding: '20px', backgroundColor: '#f3f4f6', fontFamily: 'Arial, sans-serif' }}>
+      <style>{`
+        @media print {
+          .print-hidden { display: none !important; }
+          body { margin: 0; padding: 0; }
+          @page { size: A4; margin: 0.5cm; }
+        }
+        .grades-table { page-break-inside: avoid; }
+        input[type="text"], input[type="number"] {
+          border: 1px solid #d1d5db;
+          padding: 2px 4px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        /* Masquer les flèches des inputs number */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', background: 'white', boxShadow: '0 5px 15px rgba(0,0,0,0.2)', borderRadius: '12px', overflow: 'hidden' }}>
         
         {/* Toolbar */}
-        <div className="toolbar print-hidden">
-          <h1><FileSpreadsheet /> Générateur de Bulletin</h1>
-          <div>
-            <button className="print-btn" onClick={() => window.print()}><Printer /> Imprimer</button>
-            <button className="pdf-btn" onClick={exportToPDF}><Download /> Télécharger PDF</button>
+        <div className="print-hidden" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1e3a8a', color: 'white', padding: '15px' }}>
+          <h1 style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.2rem', margin: 0 }}>
+            <FileSpreadsheet /> Générateur de Bulletin
+          </h1>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button onClick={() => window.print()} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer', backgroundColor: '#1d4ed8', color: 'white' }}>
+              <Printer size={18} /> Imprimer
+            </button>
+            <button onClick={downloadPDF} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer', backgroundColor: '#16a34a', color: 'white', fontWeight: 'bold' }}>
+              <Download size={18} /> Télécharger PDF
+            </button>
           </div>
         </div>
 
         {/* Contenu du Bulletin */}
-        <div id="bulletin-content">
+        <div id="bulletin-content" style={{ padding: '30px' }}>
+          
           {/* Header */}
-          <div className="bulletin-header">
-            <div className="header-left">
-              <img src={cipLogo} alt="Logo CIP" />
-              <span>CIP</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '20px' }}>
+            
+            {/* Logo */}
+            <div style={{ width: '30%', border: '2px dashed #d1d5db', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '120px', padding: '10px' }}>
+              <div style={{ width: '64px', height: '64px', backgroundColor: '#e5e7eb', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '5px' }}>
+                <span style={{ fontSize: '24px', fontWeight: 'bold' }}>🏫</span>
+              </div>
+              <span style={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase' }}>LOGO</span>
             </div>
 
-            <div className="header-center">
-              <h2 contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, schoolName: e.target.innerText})}>{headerInfo.schoolName}</h2>
-              <p>RÉPUBLIQUE TOGOLAISE</p>
-              <p><i>Travail - Liberté - Patrie</i></p>
-              <div>
-                <p><b>BULLETIN DE NOTES</b></p>
-                <p>{headerInfo.trimestre}</p>
+            {/* Centre - École */}
+            <div style={{ width: '30%', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <h2 contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, schoolName: e.target.innerText})} style={{ fontSize: '20px', fontWeight: 'bold', textTransform: 'uppercase', color: '#1e3a8a', margin: '5px 0' }}>
+                {headerInfo.schoolName}
+              </h2>
+              <p style={{ margin: '2px 0', fontSize: '12px' }}>RÉPUBLIQUE TOGOLAISE</p>
+              <p style={{ margin: '2px 0', fontSize: '11px', fontStyle: 'italic' }}>Travail - Liberté - Patrie</p>
+              <div style={{ marginTop: '5px', borderTop: '1px solid black', paddingTop: '3px' }}>
+                <p style={{ margin: '2px 0', fontWeight: 'bold' }}>BULLETIN DE NOTES</p>
+                <p style={{ margin: '2px 0', fontSize: '12px' }}>{headerInfo.trimestre}</p>
               </div>
             </div>
 
-            <div className="header-right">
-              <div>
-                <b>Année:</b> <span contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, anneeScolaire: e.target.innerText})}>{headerInfo.anneeScolaire}</span>
+            {/* Droite - Élève */}
+            <div style={{ width: '30%', border: '1px solid black', padding: '10px', fontSize: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #d1d5db', marginBottom: '5px', paddingBottom: '2px' }}>
+                <b>Année:</b>
+                <span contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, anneeScolaire: e.target.innerText})}>{headerInfo.anneeScolaire}</span>
               </div>
-              <div>
-                <b>Classe:</b> <span contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, classe: e.target.innerText})}>{headerInfo.classe}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #d1d5db', marginBottom: '5px', paddingBottom: '2px' }}>
+                <b>Classe:</b>
+                <span contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, classe: e.target.innerText})}>{headerInfo.classe}</span>
               </div>
-              <div>
-                <b>Effectif:</b> <span contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, effectif: e.target.innerText})}>{headerInfo.effectif}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #d1d5db', marginBottom: '5px', paddingBottom: '2px' }}>
+                <b>Effectif:</b>
+                <span contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, effectif: e.target.innerText})}>{headerInfo.effectif}</span>
               </div>
-              <div>
-                <b>Nom & Prénoms:</b> <span contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, eleveNom: e.target.innerText})}>{headerInfo.eleveNom}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #d1d5db', marginBottom: '5px', paddingBottom: '2px' }}>
+                <b>Nom & Prénoms:</b>
+                <span contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, eleveNom: e.target.innerText})}>{headerInfo.eleveNom}</span>
               </div>
-              <div>
-                Matricule: <span contentEditable onBlur={(e) => setHeaderInfo({...headerInfo, matricule: e.target.innerText})}>{headerInfo.matricule}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                Matricule:
+                <span contentEditable suppressContentEditableWarning onBlur={(e) => setHeaderInfo({...headerInfo, matricule: e.target.innerText})}>{headerInfo.matricule}</span>
               </div>
             </div>
           </div>
 
           {/* Tableau */}
-          <table className="grades-table">
+          <table className="grades-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px', textAlign: 'center' }}>
             <thead>
-              <tr>
-                <th rowSpan="2">Matière</th>
-                <th colSpan="2">NOTES DE CLASSE</th>
-                <th rowSpan="2">Moy. Classe</th>
-                <th rowSpan="2">Note Compo</th>
-                <th rowSpan="2">Moy. Trimestre</th>
-                <th rowSpan="2">Coeff</th>
-                <th rowSpan="2">Points</th>
-                <th rowSpan="2">Rang</th>
-                <th rowSpan="2">Appréciation</th>
-                <th rowSpan="2">Nom Prof</th>
-                <th rowSpan="2">Signature</th>
+              <tr style={{ backgroundColor: '#e5e7eb' }}>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Matière</th>
+                <th colSpan="2" style={{ border: '1px solid black', padding: '4px' }}>NOTES DE CLASSE</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Moy. Classe</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Note Compo</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Moy. Trim.</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Coeff</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Points</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Rang</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Appréciation</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Nom Prof</th>
+                <th rowSpan="2" style={{ border: '1px solid black', padding: '4px' }}>Signature</th>
               </tr>
-              <tr>
-                <th>N1</th>
-                <th>N2</th>
+              <tr style={{ backgroundColor: '#e5e7eb' }}>
+                <th style={{ border: '1px solid black', padding: '4px' }}>N1</th>
+                <th style={{ border: '1px solid black', padding: '4px' }}>N2</th>
               </tr>
             </thead>
             <tbody>
               {rowsWithCalcs.map((row, idx) => (
                 <tr key={idx}>
-                  <td>{row.name}</td>
-                  <td><input value={row.n1} onChange={(e) => handleSubjectChange(idx, 'n1', e.target.value)} /></td>
-                  <td><input value={row.n2} onChange={(e) => handleSubjectChange(idx, 'n2', e.target.value)} /></td>
-                  <td><input value={row.moyClasse} onChange={(e) => handleSubjectChange(idx, 'moyClasse', e.target.value)} /></td>
-                  <td><input value={row.compo} onChange={(e) => handleSubjectChange(idx, 'compo', e.target.value)} /></td>
-                  <td>{row.moyCalculee}</td>
-                  <td>{row.coeff}</td>
-                  <td>{row.points}</td>
-                  <td><input value={row.rang} onChange={(e) => handleSubjectChange(idx, 'rang', e.target.value)} /></td>
-                  <td><input value={row.appreciation} onChange={(e) => handleSubjectChange(idx, 'appreciation', e.target.value)} /></td>
-                  <td>{row.prof}</td>
-                  <td></td>
+                  <td style={{ border: '1px solid black', padding: '4px', textAlign: 'left' }}>{row.name}</td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="number" value={row.n1} onChange={(e) => handleSubjectChange(idx, 'n1', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="number" value={row.n2} onChange={(e) => handleSubjectChange(idx, 'n2', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="number" value={row.moyClasse} onChange={(e) => handleSubjectChange(idx, 'moyClasse', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="number" value={row.compo} onChange={(e) => handleSubjectChange(idx, 'compo', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '4px', fontWeight: 'bold' }}>{row.moyCalculee}</td>
+                  <td style={{ border: '1px solid black', padding: '4px' }}>{row.coeff}</td>
+                  <td style={{ border: '1px solid black', padding: '4px', fontWeight: 'bold' }}>{row.points}</td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="text" value={row.rang} onChange={(e) => handleSubjectChange(idx, 'rang', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '2px' }}>
+                    <input type="text" value={row.appreciation} onChange={(e) => handleSubjectChange(idx, 'appreciation', e.target.value)} style={{ width: '100%', textAlign: 'center' }} />
+                  </td>
+                  <td style={{ border: '1px solid black', padding: '4px', fontSize: '10px' }}>{row.prof}</td>
+                  <td style={{ border: '1px solid black', padding: '4px' }}></td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr>
-                <td colSpan="6">TOTAUX:</td>
-                <td>{totalCoeff}</td>
-                <td>{totalPoints.toFixed(2)}</td>
-                <td colSpan="4">
-                  MOYENNE GÉNÉRALE: <b>{moyenneGenerale}</b>/20
+              <tr style={{ backgroundColor: '#1e3a8a', color: 'white', fontWeight: 'bold' }}>
+                <td colSpan="6" style={{ border: '1px solid black', padding: '4px', textAlign: 'right' }}>TOTAUX:</td>
+                <td style={{ border: '1px solid black', padding: '4px' }}>{totalCoeff}</td>
+                <td style={{ border: '1px solid black', padding: '4px' }}>{totalPoints.toFixed(2)}</td>
+                <td colSpan="4" style={{ border: '1px solid black', padding: '4px' }}>
+                  MOYENNE GÉNÉRALE: <b>{moyenneGenerale}/20</b>
                 </td>
               </tr>
             </tfoot>
           </table>
 
           {/* Pied de page */}
-          <div className="footer-grid">
-            <div className="footer-block">
-              <div className="header">ASSIDUITÉ</div>
-              <div>
-                <label>Absences: <input value={footerInfo.absences} onChange={(e) => setFooterInfo({...footerInfo, absences: e.target.value})} /></label>
-                <label>Retards: <input value={footerInfo.retards} onChange={(e) => setFooterInfo({...footerInfo, retards: e.target.value})} /></label>
-                <label>Conduite: <input value={footerInfo.conduite} onChange={(e) => setFooterInfo({...footerInfo, conduite: e.target.value})} /></label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginTop: '20px' }}>
+            
+            {/* Assiduité */}
+            <div style={{ border: '1px solid black' }}>
+              <div style={{ backgroundColor: '#e5e7eb', borderBottom: '1px solid black', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', padding: '3px' }}>
+                ASSIDUITÉ
+              </div>
+              <div style={{ padding: '10px' }}>
+                <div style={{ marginBottom: '5px' }}>
+                  <label>Absences: <input type="text" value={footerInfo.absences} onChange={(e) => setFooterInfo({...footerInfo, absences: e.target.value})} style={{ width: '50px' }} /></label>
+                </div>
+                <div style={{ marginBottom: '5px' }}>
+                  <label>Retards: <input type="text" value={footerInfo.retards} onChange={(e) => setFooterInfo({...footerInfo, retards: e.target.value})} style={{ width: '50px' }} /></label>
+                </div>
+                <div>
+                  <label>Conduite: <input type="text" value={footerInfo.conduite} onChange={(e) => setFooterInfo({...footerInfo, conduite: e.target.value})} style={{ width: '100px' }} /></label>
+                </div>
               </div>
             </div>
 
-            <div className="footer-block">
-              <div className="header">CONSEIL</div>
-              <div>
-                <label><input type="checkbox" checked={footerInfo.tableauHonneur} onChange={() => setFooterInfo({...footerInfo, tableauHonneur: !footerInfo.tableauHonneur})}/> Tableau d'Honneur</label>
-                <label><input type="checkbox" checked={footerInfo.felicitations} onChange={() => setFooterInfo({...footerInfo, felicitations: !footerInfo.felicitations})}/> Félicitations</label>
-                <label><input type="checkbox" checked={footerInfo.encouragements} onChange={() => setFooterInfo({...footerInfo, encouragements: !footerInfo.encouragements})}/> Encouragements</label>
-                <label><input type="checkbox" checked={footerInfo.avertissement} onChange={() => setFooterInfo({...footerInfo, avertissement: !footerInfo.avertissement})}/> Avertissement</label>
-                <label><input type="checkbox" checked={footerInfo.blame} onChange={() => setFooterInfo({...footerInfo, blame: !footerInfo.blame})}/> Blâme</label>
-
-                <div>
-                  <label>DÉCISION: <input value={footerInfo.decision} onChange={(e) => setFooterInfo({...footerInfo, decision: e.target.value})} /></label>
+            {/* Conseil */}
+            <div style={{ border: '1px solid black' }}>
+              <div style={{ backgroundColor: '#e5e7eb', borderBottom: '1px solid black', textAlign: 'center', fontSize: '12px', fontWeight: 'bold', padding: '3px' }}>
+                CONSEIL
+              </div>
+              <div style={{ padding: '10px', fontSize: '12px' }}>
+                <div><label><input type="checkbox" checked={footerInfo.tableauHonneur} onChange={() => setFooterInfo({...footerInfo, tableauHonneur: !footerInfo.tableauHonneur})} /> Tableau d'Honneur</label></div>
+                <div><label><input type="checkbox" checked={footerInfo.felicitations} onChange={() => setFooterInfo({...footerInfo, felicitations: !footerInfo.felicitations})} /> Félicitations</label></div>
+                <div><label><input type="checkbox" checked={footerInfo.encouragements} onChange={() => setFooterInfo({...footerInfo, encouragements: !footerInfo.encouragements})} /> Encouragements</label></div>
+                <div><label><input type="checkbox" checked={footerInfo.avertissement} onChange={() => setFooterInfo({...footerInfo, avertissement: !footerInfo.avertissement})} /> Avertissement</label></div>
+                <div><label><input type="checkbox" checked={footerInfo.blame} onChange={() => setFooterInfo({...footerInfo, blame: !footerInfo.blame})} /> Blâme</label></div>
+                <div style={{ marginTop: '10px' }}>
+                  <label><b>DÉCISION:</b> <input type="text" value={footerInfo.decision} onChange={(e) => setFooterInfo({...footerInfo, decision: e.target.value})} style={{ width: '100%' }} /></label>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Signatures */}
-          <div className="signatures">
-            <div>Parents</div>
-            <div>Titulaire</div>
-            <div>Directeur</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid black', marginTop: '10px', height: '100px' }}>
+            <div style={{ width: '30%', textAlign: 'center', textDecoration: 'underline', fontWeight: 'bold', paddingTop: '10px' }}>Parents</div>
+            <div style={{ width: '30%', textAlign: 'center', textDecoration: 'underline', fontWeight: 'bold', paddingTop: '10px' }}>Titulaire</div>
+            <div style={{ width: '30%', textAlign: 'center', textDecoration: 'underline', fontWeight: 'bold', paddingTop: '10px' }}>Directeur</div>
           </div>
-
         </div>
       </div>
     </div>
