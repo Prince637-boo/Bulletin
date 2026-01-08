@@ -106,13 +106,13 @@ const BulletinGenerator = () => {
     plusFaible: "",
     moyMinMax: "",
     rang: "",
-    absences: "",
+    absences: "00",
     observation: "",
-    tableauHonneur: false,
-    titulaire: "",
-    directeur: "",
+    tableauHonneur: true,
+    titulaire: "M.DOUTI",
+    directeur: "M. WIYAGOUDA Bamazi",
     date: "",
-    lieu: "",
+    lieu: "Kara",
   });
 
   const updateSubject = (index, field, value) => {
@@ -122,37 +122,30 @@ const BulletinGenerator = () => {
   };
 
   // --- CALCULS AUTOMATIQUES ---
-
-  // 1. Calculer les lignes individuelles
   const processedSubjects = data.subjects.map((s) => {
     const n1 = parseFloat(s.n1);
     const n2 = parseFloat(s.n2);
     const comp = parseFloat(s.comp);
 
-    // Vérifier si les nombres sont valides pour éviter d'afficher "NaN"
     const hasN1 = !isNaN(n1);
     const hasN2 = !isNaN(n2);
     const hasComp = !isNaN(comp);
 
-    // Calcul Moyenne Classe (pour affichage seulement, si besoin)
     let moyCla = "";
     if (hasN1 && hasN2) moyCla = ((n1 + n2) / 2).toFixed(2);
     else if (hasN1) moyCla = n1.toFixed(2);
     else if (hasN2) moyCla = n2.toFixed(2);
 
-    // Note Max pour le calcul demandé
     let maxNoteClasse = 0;
     if (hasN1 && hasN2) maxNoteClasse = Math.max(n1, n2);
     else if (hasN1) maxNoteClasse = n1;
     else if (hasN2) maxNoteClasse = n2;
 
-    // Calcul Moyenne Trimestrielle: (Max(n1, n2) + Comp) / 2
     let moyTrimVal = 0;
     let ntesDefVal = 0;
     let moyTrimDisplay = "";
     let ntesDefDisplay = "";
 
-    // On calcule seulement si on a au moins une note de classe ET une compo
     if ((hasN1 || hasN2) && hasComp) {
       moyTrimVal = (maxNoteClasse + comp) / 2;
       ntesDefVal = moyTrimVal * s.coef;
@@ -166,18 +159,16 @@ const BulletinGenerator = () => {
       moyClaDisplay: moyCla,
       moyTrimDisplay,
       ntesDefDisplay,
-      rawNtesDef: ntesDefVal, // Sert pour le total
+      rawNtesDef: ntesDefVal,
     };
   });
 
-  // 2. Calculer les Totaux Généraux
   const totalCoef = processedSubjects.reduce((acc, s) => acc + s.coef, 0);
   const totalNotes = processedSubjects.reduce(
     (acc, s) => acc + s.rawNtesDef,
     0
   );
 
-  // 3. Calculer la Moyenne Générale
   const moyenneGenerale =
     totalCoef > 0 ? (totalNotes / totalCoef).toFixed(2) : "";
 
@@ -213,7 +204,7 @@ const BulletinGenerator = () => {
           maxWidth: "210mm",
           margin: "0 auto",
           background: "white",
-          padding: "20mm 15mm",
+          padding: "10mm",
           minHeight: "297mm",
           boxSizing: "border-box",
         }}
@@ -251,115 +242,68 @@ const BulletinGenerator = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "8px",
+            marginBottom: "10px",
+            alignItems: "flex-start",
           }}
         >
           {/* Gauche */}
-          <div style={{ width: "38%", fontSize: "10px", textAlign: "center" }}>
-            <div style={{ fontWeight: "bold" }}>
-              <div contentEditable suppressContentEditableWarning>
-                MINISTERE DES ENSEIGNEMENTS
-              </div>
-              <div contentEditable suppressContentEditableWarning>
-                PRIMAIRE ET SECONDAIRE
-              </div>
-            </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontWeight: "bold", marginTop: "3px" }}
-            >
-              {data.dre}
-            </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontWeight: "bold" }}
-            >
-              {data.iesg}
-            </div>
+          <div style={{ width: "35%", fontSize: "11px", textAlign: "center", fontWeight: "bold" }}>
+            <div>MINISTERE DES ENSEIGNEMENTS</div>
+            <div>PRIMAIRE ET SECONDAIRE</div>
+            <div style={{ marginTop: "4px" }}>DRE-KARA</div>
+            <div>IESG-KARA</div>
             <div
               style={{
-                margin: "12px auto",
-                width: "70px",
-                height: "70px",
+                margin: "10px auto",
+                width: "80px",
+                height: "80px",
                 borderRadius: "50%",
+                border: "2px solid #000",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "white",
                 overflow: "hidden",
               }}
             >
               <img
                 src={CIP}
-                alt="Logo CIP"
+                alt="Logo"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontWeight: "bold", fontSize: "12px" }}
-            >
-              {data.etablissement}
-            </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontSize: "8px", marginTop: "2px" }}
-            >
-              {data.devise}
-            </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontSize: "8px", marginTop: "4px" }}
-            >
-              {data.contact}
-            </div>
+            <div style={{ fontSize: "13px", fontWeight: "bold" }}>CPL EXCELLENCE</div>
+            <div style={{ fontSize: "9px", marginTop: "2px" }}>TRAVAIL-RIGUEUR-REUSSITE</div>
+            <div style={{ fontSize: "9px", marginTop: "2px" }}>BP: KARA-TOGO</div>
+            <div style={{ fontSize: "9px" }}>TEL:+22892586723</div>
           </div>
 
           {/* Centre */}
           <div
             style={{
-              width: "32%",
+              width: "30%",
+              textAlign: "center",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              textAlign: "center",
             }}
           >
-            <h2 style={{ fontSize: "12px", fontWeight: "bold", margin: 0 }}>
-              BULLETIN DE NOTES DU{" "}
-              <span contentEditable suppressContentEditableWarning>
-                {data.trimestre}
-              </span>
+            <h2 style={{ fontSize: "13px", fontWeight: "bold", margin: 0, textDecoration: "underline" }}>
+              BULLETIN DE NOTES DU PREMIER TRIMESTRE
             </h2>
           </div>
 
           {/* Droite */}
-          <div style={{ width: "28%", fontSize: "10px", textAlign: "center" }}>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontWeight: "bold" }}
-            >
-              REPUBLIQUE TOGOLAISE
-            </div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontStyle: "italic", fontSize: "9px", marginTop: "2px" }}
-            >
+          <div style={{ width: "35%", fontSize: "11px", textAlign: "center" }}>
+            <div style={{ fontWeight: "bold" }}>REPUBLIQUE TOGOLAISE</div>
+            <div style={{ fontStyle: "italic", fontSize: "10px", marginTop: "2px" }}>
               Travail-Liberté-Patrie
             </div>
             <table
               style={{
                 width: "100%",
-                border: "1px solid #000",
-                marginTop: "8px",
-                fontSize: "8px",
+                border: "2px solid #000",
+                marginTop: "10px",
+                fontSize: "10px",
                 borderCollapse: "collapse",
               }}
             >
@@ -368,8 +312,9 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "4px",
                       fontWeight: "bold",
+                      background: "#f0f0f0",
                     }}
                   >
                     Année
@@ -377,7 +322,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "3px" }}
+                    style={{ border: "1px solid #000", padding: "4px", textAlign: "center" }}
                   >
                     {data.annee}
                   </td>
@@ -386,8 +331,9 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "4px",
                       fontWeight: "bold",
+                      background: "#f0f0f0",
                     }}
                   >
                     Classe
@@ -395,7 +341,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "3px" }}
+                    style={{ border: "1px solid #000", padding: "4px", textAlign: "center" }}
                   >
                     {data.classe}
                   </td>
@@ -404,8 +350,9 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "4px",
                       fontWeight: "bold",
+                      background: "#f0f0f0",
                     }}
                   >
                     Effectif
@@ -413,7 +360,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "3px" }}
+                    style={{ border: "1px solid #000", padding: "4px", textAlign: "center" }}
                   >
                     {data.effectif}
                   </td>
@@ -422,8 +369,9 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "4px",
                       fontWeight: "bold",
+                      background: "#f0f0f0",
                     }}
                   >
                     Statut
@@ -431,7 +379,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "3px" }}
+                    style={{ border: "1px solid #000", padding: "4px", textAlign: "center" }}
                   >
                     {data.statut}
                   </td>
@@ -440,8 +388,9 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "4px",
                       fontWeight: "bold",
+                      background: "#f0f0f0",
                     }}
                   >
                     Sexe
@@ -449,7 +398,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "3px" }}
+                    style={{ border: "1px solid #000", padding: "4px", textAlign: "center" }}
                   >
                     {data.sexe}
                   </td>
@@ -463,9 +412,9 @@ const BulletinGenerator = () => {
         <table
           style={{
             width: "100%",
-            border: "1px solid #000",
-            marginBottom: "12px",
-            fontSize: "9px",
+            border: "2px solid #000",
+            marginBottom: "10px",
+            fontSize: "11px",
             borderCollapse: "collapse",
           }}
         >
@@ -474,9 +423,10 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
+                  padding: "5px",
                   fontWeight: "bold",
                   width: "10%",
+                  background: "#f0f0f0",
                 }}
               >
                 Nom:
@@ -486,8 +436,9 @@ const BulletinGenerator = () => {
                 suppressContentEditableWarning
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
-                  width: "40%",
+                  padding: "5px",
+                  width: "38%",
+                  textAlign: "center",
                 }}
               >
                 {data.nom}
@@ -495,9 +446,10 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
+                  padding: "5px",
                   fontWeight: "bold",
-                  width: "18%",
+                  width: "20%",
+                  background: "#f0f0f0",
                 }}
               >
                 Date de Naissance
@@ -507,8 +459,9 @@ const BulletinGenerator = () => {
                 suppressContentEditableWarning
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
+                  padding: "5px",
                   width: "32%",
+                  textAlign: "center",
                 }}
               >
                 {data.dateNaissance}
@@ -518,8 +471,9 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
+                  padding: "5px",
                   fontWeight: "bold",
+                  background: "#f0f0f0",
                 }}
               >
                 Prénoms
@@ -527,15 +481,16 @@ const BulletinGenerator = () => {
               <td
                 contentEditable
                 suppressContentEditableWarning
-                style={{ border: "1px solid #000", padding: "4px" }}
+                style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}
               >
                 {data.prenoms}
               </td>
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "4px",
+                  padding: "5px",
                   fontWeight: "bold",
+                  background: "#f0f0f0",
                 }}
               >
                 Lieu de Naissance
@@ -543,7 +498,7 @@ const BulletinGenerator = () => {
               <td
                 contentEditable
                 suppressContentEditableWarning
-                style={{ border: "1px solid #000", padding: "4px" }}
+                style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}
               >
                 {data.lieuNaissance}
               </td>
@@ -556,239 +511,225 @@ const BulletinGenerator = () => {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            fontSize: "8.5px",
-            border: "1px solid #000",
+            fontSize: "10px",
+            border: "2px solid #000",
           }}
         >
-          <thead style={{ background: "#d8bfd8" }}>
-            <tr>
+          <thead>
+            <tr style={{ background: "#f0f0f0" }}>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
                 MATIERES
               </th>
               <th
                 colSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Ntes clas
-                <br />
-                Sur 20
+                Ntes clas<br />Sur 20
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Moy cla
-                <br />
-                sur 20
+                Moy cla<br />sur 20
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Comp
-                <br />
-                Sur 20
+                Comp<br />Sur 20
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Moy
-                <br />
-                trim
+                Moy<br />trim
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
                 Coef
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Ntes
-                <br />
-                définitives
+                Ntes<br />définitives
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
                 Rang
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Appréciation
+                Appréciation<br />des professeurs
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
-                Noms des
-                <br />
-                Professeurs
+                Noms des<br />Professeurs
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "3px" }}
+                style={{ border: "1px solid #000", padding: "5px", fontWeight: "bold" }}
               >
                 Signature
               </th>
             </tr>
-            <tr>
-              <th style={{ border: "1px solid #000", padding: "2px" }}>1</th>
-              <th style={{ border: "1px solid #000", padding: "2px" }}>2</th>
+            <tr style={{ background: "#f0f0f0" }}>
+              <th style={{ border: "1px solid #000", padding: "3px", fontWeight: "bold" }}>1</th>
+              <th style={{ border: "1px solid #000", padding: "3px", fontWeight: "bold" }}>2</th>
             </tr>
           </thead>
           <tbody>
-            {processedSubjects.map((s, i) => {
-              return (
-                <tr key={i}>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {s.name}
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "2px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <input
-                      type="number"
-                      value={s.n1}
-                      onChange={(e) => updateSubject(i, "n1", e.target.value)}
-                      style={{ width: "100%", textAlign: "center" }}
-                    />
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "2px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <input
-                      type="number"
-                      value={s.n2}
-                      onChange={(e) => updateSubject(i, "n2", e.target.value)}
-                      style={{ width: "100%", textAlign: "center" }}
-                    />
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                      background: "#fafafa",
-                    }}
-                  >
-                    {s.moyClaDisplay}
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "2px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <input
-                      type="number"
-                      value={s.comp}
-                      onChange={(e) => updateSubject(i, "comp", e.target.value)}
-                      style={{ width: "100%", textAlign: "center" }}
-                    />
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      background: "#f0fdf4",
-                    }}
-                  >
-                    {s.moyTrimDisplay}
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {s.coef}
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      background: "#f0fdf4",
-                    }}
-                  >
-                    {s.ntesDefDisplay}
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {s.rang}
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {s.appr}
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {s.prof}
-                  </td>
-                  <td style={{ border: "1px solid #000", padding: "3px" }}></td>
-                </tr>
-              );
-            })}
-            <tr style={{ background: "#d8bfd8", fontWeight: "bold" }}>
+            {processedSubjects.map((s, i) => (
+              <tr key={i}>
+                <td
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {s.name}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "3px",
+                    textAlign: "center",
+                  }}
+                >
+                  <input
+                    type="number"
+                    value={s.n1}
+                    onChange={(e) => updateSubject(i, "n1", e.target.value)}
+                    style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
+                  />
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "3px",
+                    textAlign: "center",
+                  }}
+                >
+                  <input
+                    type="number"
+                    value={s.n2}
+                    onChange={(e) => updateSubject(i, "n2", e.target.value)}
+                    style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
+                  />
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                    background: "#fafafa",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {s.moyClaDisplay}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "3px",
+                    textAlign: "center",
+                  }}
+                >
+                  <input
+                    type="number"
+                    value={s.comp}
+                    onChange={(e) => updateSubject(i, "comp", e.target.value)}
+                    style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
+                  />
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {s.moyTrimDisplay}
+                </td>
+                <td
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {s.coef}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {s.ntesDefDisplay}
+                </td>
+                <td
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                  }}
+                >
+                  {s.rang}
+                </td>
+                <td
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                  }}
+                >
+                  {s.appr}
+                </td>
+                <td
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    border: "1px solid #000",
+                    padding: "5px",
+                    textAlign: "center",
+                  }}
+                >
+                  {s.prof}
+                </td>
+                <td style={{ border: "1px solid #000", padding: "5px" }}></td>
+              </tr>
+            ))}
+            <tr style={{ background: "#f0f0f0", fontWeight: "bold" }}>
               <td
                 colSpan="6"
                 style={{
                   border: "1px solid #000",
-                  padding: "3px",
+                  padding: "5px",
                   textAlign: "right",
                 }}
               >
@@ -797,7 +738,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "3px",
+                  padding: "5px",
                   textAlign: "center",
                 }}
               >
@@ -806,7 +747,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "3px",
+                  padding: "5px",
                   textAlign: "center",
                 }}
               >
@@ -817,214 +758,191 @@ const BulletinGenerator = () => {
           </tbody>
         </table>
 
-        {/* Résultats et Décision */}
-        <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
-          {/* Gauche */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        {/* Résultats et Décisions */}
+        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+          {/* Gauche - Résultats */}
+          <div style={{ flex: 1, border: "2px solid #000" }}>
             <div
               style={{
-                border: "1px solid #000",
-                background: "#d8bfd8",
-                padding: "3px",
+                background: "#f0f0f0",
+                padding: "5px",
                 textAlign: "center",
-                fontSize: "9px",
+                fontSize: "11px",
                 fontWeight: "bold",
+                borderBottom: "1px solid #000",
               }}
             >
               RESULTATS DE L'ELEVE
             </div>
-            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-              <table
-                style={{
-                  width: "100%",
-                  height: "50%",
-                  border: "1px solid #000",
-                  fontSize: "8px",
-                  borderTop: "none",
-                  borderCollapse: "collapse",
-                  tableLayout: "fixed",
-                }}
-              >
-                <tbody>
-                  <tr style={{ height: "26.66%" }}>
-                    <td
-                      style={{
-                        border: "1px solid #000",
-                        padding: "3px",
-                        fontWeight: "bold",
-                        width: "35%",
-                      }}
-                    >
-                      Moyenne trimestrielle:
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid #000",
-                        padding: "3px",
-                        width: "15%",
-                        fontWeight: "bold",
-                        fontSize: "11px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {moyenneGenerale}
-                    </td>
-                    <td
-                      style={{
-                        border: "1px solid #000",
-                        padding: "3px",
-                        width: "35%",
-                      }}
-                    >
-                      Plus forte moyenne sr 20
-                    </td>
-                    <td
-                      contentEditable
-                      suppressContentEditableWarning
-                      style={{
-                        border: "1px solid #000",
-                        padding: "3px",
-                        width: "15%",
-                      }}
-                    >
-                      {data.plusForte}
-                    </td>
-                  </tr>
-                  <tr style={{ height: "26.66%" }}>
-                    <td
-                      colSpan="2"
-                      style={{ border: "1px solid #000", padding: "3px" }}
-                    ></td>
-                    <td style={{ border: "1px solid #000", padding: "3px" }}>
-                      Plus faible moyenne sr 20
-                    </td>
-                    <td
-                      contentEditable
-                      suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "3px" }}
-                    >
-                      {data.plusFaible}
-                    </td>
-                  </tr>
-                  <tr style={{ height: "26.66%" }}>
-                    <td
-                      style={{
-                        border: "1px solid #000",
-                        padding: "3px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Rang:
-                    </td>
-                    <td
-                      contentEditable
-                      suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "3px" }}
-                    >
-                      {data.rang}
-                    </td>
-                    <td style={{ border: "1px solid #000", padding: "3px" }}>
-                      Moy min/max sr 20
-                    </td>
-                    <td
-                      contentEditable
-                      suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "3px" }}
-                    >
-                      {data.moyMinMax}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "8px",
-                  marginTop: "8px",
-                  flex: 1,
-                }}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div
+            <table
+              style={{
+                width: "100%",
+                fontSize: "10px",
+                borderCollapse: "collapse",
+              }}
+            >
+              <tbody>
+                <tr>
+                  <td
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
-                      textAlign: "center",
-                      fontSize: "8px",
+                      padding: "5px",
                       fontWeight: "bold",
+                      width: "50%",
                     }}
                   >
-                    Nombre d'heures d'absence
-                  </div>
-                  <div
+                    Moyenne trimestrielle:
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                      padding: "5px",
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {moyenneGenerale}
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                      padding: "5px",
+                    }}
+                  >
+                    Plus forte moy sr 20
+                  </td>
+                  <td
                     contentEditable
                     suppressContentEditableWarning
                     style={{
-                      flex: 1,
-                      textAlign: "center",
                       border: "1px solid #000",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderTop: "none",
-                      fontSize: "10px",
+                      padding: "15px",
+                      textAlign: "center",
                     }}
                   >
-                    {data.absences}
-                  </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div
+                    {data.plusForte}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    rowSpan="2"
+                    colSpan="2"
+                    style={{ border: "1px solid #000", padding: "5px" }}
+                  ></td>
+                  <td style={{ border: "1px solid #000", padding: "5px" }}>
+                    Plus faible moy sr 20
+                  </td>
+                  <td
+                    contentEditable
+                    suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "3px",
+                      padding: "5px",
                       textAlign: "center",
-                      fontSize: "8px",
+                    }}
+                  >
+                    {data.plusFaible}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: "1px solid #000", padding: "5px" }}>
+                    Moy min/max sr 20
+                  </td>
+                  <td
+                    contentEditable
+                    suppressContentEditableWarning
+                    style={{
+                      border: "1px solid #000",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {data.moyMinMax}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                      padding: "5px",
                       fontWeight: "bold",
                     }}
                   >
-                    Observation du chef d'établissement
-                  </div>
-                  <div
+                    Rang:
+                  </td>
+                  <td
+                    contentEditable
+                    suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      flex: 1,
-                      borderTop: "none",
-                      minHeight: "50px",
+                      padding: "5px",
+                      textAlign: "center",
+                      fontWeight: "bold",
                     }}
-                  ></div>
+                  >
+                    {data.rang}
+                  </td>
+                  <td colSpan="2" style={{ border: "1px solid #000" }}></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style={{ display: "flex", borderTop: "1px solid #000" }}>
+              <div style={{ flex: 1, borderRight: "1px solid #000", textAlign: "center" }}>
+                <div
+                  style={{
+                    padding: "5px",
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    borderBottom: "1px solid #000",
+                  }}
+                >
+                  Nombre d'heures d'absence
                 </div>
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    padding: "20px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {data.absences}
+                </div>
+              </div>
+              <div style={{ flex: 1, textAlign: "center" }}>
+                <div
+                  style={{
+                    padding: "5px",
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    borderBottom: "1px solid #000",
+                  }}
+                >
+                  Observation du chef d'établissement
+                </div>
+                <div style={{ padding: "20px", minHeight: "60px" }}></div>
               </div>
             </div>
           </div>
 
-          {/* Droite */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          {/* Droite - Décisions */}
+          <div style={{ flex: 1, border: "2px solid #000" }}>
             <div
               style={{
-                border: "1px solid #000",
-                background: "#d8bfd8",
-                padding: "3px",
+                background: "#f0f0f0",
+                padding: "5px",
                 textAlign: "center",
-                fontSize: "9px",
+                fontSize: "11px",
                 fontWeight: "bold",
+                borderBottom: "1px solid #000",
               }}
             >
               DECISION DU CONSEIL
             </div>
-            <div
-              style={{
-                border: "1px solid #000",
-                padding: "8px",
-                fontSize: "8px",
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                borderTop: "none",
-              }}
-            >
+            <div style={{ padding: "10px", fontSize: "10px" }}>
               {[
                 "Félicitations",
                 "Encouragement",
@@ -1037,80 +955,66 @@ const BulletinGenerator = () => {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    marginBottom: "5px",
+                    marginBottom: "8px",
+                    alignItems: "center",
                   }}
                 >
-                  <span contentEditable suppressContentEditableWarning>
-                    {item}
-                  </span>
+                  <span>{item}</span>
                   <input
                     type="checkbox"
                     checked={i === 2 && data.tableauHonneur}
                     onChange={() => {}}
+                    style={{ width: "18px", height: "18px" }}
                   />
                 </div>
               ))}
 
               <div
                 style={{
-                  border: "1px solid #000",
-                  padding: "8px",
-                  marginTop: "auto",
+                  border: "2px solid #000",
+                  padding: "10px",
+                  marginTop: "15px",
                   minHeight: "80px",
-                  display: "flex",
-                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: "8px",
-fontWeight: "bold",
-marginBottom: "5px",
-}}
->
-Décision du conseil des profs:
-</div>
-<div
-contentEditable
-suppressContentEditableWarning
-style={{
-textAlign: "center",
-fontSize: "13px",
-fontWeight: "bold",
-}}
->
-{data.observation}
-</div>
-</div>
-</div>
+                    fontSize: "9px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  Décision du conseil des profs:</div>
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    textAlign: "center",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    marginTop: "10px",
+                  }}
+                >
+                  {data.observation}
+                </div>
+              </div>
+            </div>
 
-{/* Signatures */}
-        <div
-          style={{
-            display: "flex",
-            border: "1px solid #000",
-            marginTop: "12px",
-            minHeight: "80px",
-          }}
-        >
+            {/* Signatures */}
+        <div style={{ display: "flex", borderTop: "1px solid #000", minHeight: "100px" }}>
           <div
             style={{
               flex: 1,
               borderRight: "1px solid #000",
-              padding: "5px",
+              padding: "10px",
               textAlign: "center",
-              fontSize: "8px",
+              fontSize: "10px",
             }}
           >
-            <div
-              style={{ fontWeight: "bold", textDecoration: "underline" }}
-            >
-              Titulaire
-            </div>
+            <div style={{ fontWeight: "bold", marginBottom: "30px" }}>Titulaire</div>
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ marginTop: "40px" }}
+              style={{ marginTop: "auto", fontWeight: "bold" }}
             >
               {data.titulaire}
             </div>
@@ -1118,12 +1022,12 @@ fontWeight: "bold",
           <div
             style={{
               flex: 1,
-              padding: "5px",
+              padding: "10px",
               textAlign: "center",
-              fontSize: "8px",
+              fontSize: "10px",
             }}
           >
-            <div style={{ fontWeight: "bold" }}>
+            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>
               Fait à{" "}
               <span contentEditable suppressContentEditableWarning>
                 {data.lieu}
@@ -1133,28 +1037,20 @@ fontWeight: "bold",
                 {data.date}
               </span>
             </div>
+            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>LE DIRECTEUR</div>
             <div
               style={{
-                fontWeight: "bold",
-                textDecoration: "underline",
-                margin: "5px 0",
-              }}
-            >
-              LE DIRECTEUR
-            </div>
-            <div
-              style={{
-                width: "60px",
-                height: "60px",
-                border: "1px dashed #000",
+                width: "70px",
+                height: "70px",
+                border: "2px dashed #000",
                 borderRadius: "50%",
-                margin: "8px auto",
+                margin: "10px auto",
               }}
             ></div>
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ marginTop: "8px" }}
+              style={{ fontWeight: "bold" }}
             >
               {data.directeur}
             </div>
@@ -1166,18 +1062,17 @@ fontWeight: "bold",
     {/* Footer */}
     <div
       style={{
-        fontSize: "9px",
+        fontSize: "8px",
         textAlign: "center",
-        marginTop: "8px",
+        marginTop: "10px",
         fontStyle: "italic",
       }}
     >
-      Il n'est délivré qu'un seul exemplaire de bulletin en cas de perte,un
-      duplicata pourra être fourni en tant que copie certifiée par
-      l'autorité compétente.
+      Il n'est délivré qu'un seul exemplaire de bulletin en cas de perte,un duplicata pourra
+      être fourni en tant que copie certifiée par l'autorité compétente.
     </div>
   </div>
-</div>
-);
+</div>);
 };
+
 export default BulletinGenerator;
