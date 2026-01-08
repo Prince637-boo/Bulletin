@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Printer } from "lucide-react";
-import CIP from "../assets/CIP.jpg";
+import CIP from "./assets/CIP.jpg";
 
 const BulletinGenerator = () => {
   const [data, setData] = useState({
