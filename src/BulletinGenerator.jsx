@@ -213,7 +213,9 @@ const BulletinGenerator = () => {
           maxWidth: "210mm",
           margin: "0 auto",
           background: "white",
-          padding: "15px",
+          padding: "20mm 15mm",
+          minHeight: "297mm",
+          boxSizing: "border-box",
         }}
       >
         {/* Toolbar */}
@@ -253,7 +255,7 @@ const BulletinGenerator = () => {
           }}
         >
           {/* Gauche */}
-          <div style={{ width: "38%", fontSize: "9px", textAlign: "center" }}>
+          <div style={{ width: "38%", fontSize: "10px", textAlign: "center" }}>
             <div style={{ fontWeight: "bold" }}>
               <div contentEditable suppressContentEditableWarning>
                 MINISTERE DES ENSEIGNEMENTS
@@ -265,7 +267,7 @@ const BulletinGenerator = () => {
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ fontWeight: "bold" }}
+              style={{ fontWeight: "bold", marginTop: "3px" }}
             >
               {data.dre}
             </div>
@@ -278,9 +280,9 @@ const BulletinGenerator = () => {
             </div>
             <div
               style={{
-                margin: "8px auto",
-                width: "55px",
-                height: "55px",
+                margin: "12px auto",
+                width: "70px",
+                height: "70px",
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
@@ -298,21 +300,21 @@ const BulletinGenerator = () => {
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ fontWeight: "bold", fontSize: "11px" }}
+              style={{ fontWeight: "bold", fontSize: "12px" }}
             >
               {data.etablissement}
             </div>
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ fontSize: "7px" }}
+              style={{ fontSize: "8px", marginTop: "2px" }}
             >
               {data.devise}
             </div>
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ fontSize: "7px", marginTop: "3px" }}
+              style={{ fontSize: "8px", marginTop: "4px" }}
             >
               {data.contact}
             </div>
@@ -328,7 +330,7 @@ const BulletinGenerator = () => {
               textAlign: "center",
             }}
           >
-            <h2 style={{ fontSize: "10px", fontWeight: "bold", margin: 0 }}>
+            <h2 style={{ fontSize: "12px", fontWeight: "bold", margin: 0 }}>
               BULLETIN DE NOTES DU{" "}
               <span contentEditable suppressContentEditableWarning>
                 {data.trimestre}
@@ -337,7 +339,7 @@ const BulletinGenerator = () => {
           </div>
 
           {/* Droite */}
-          <div style={{ width: "28%", fontSize: "9px", textAlign: "center" }}>
+          <div style={{ width: "28%", fontSize: "10px", textAlign: "center" }}>
             <div
               contentEditable
               suppressContentEditableWarning
@@ -348,7 +350,7 @@ const BulletinGenerator = () => {
             <div
               contentEditable
               suppressContentEditableWarning
-              style={{ fontStyle: "italic", fontSize: "8px" }}
+              style={{ fontStyle: "italic", fontSize: "9px", marginTop: "2px" }}
             >
               Travail-Liberté-Patrie
             </div>
@@ -356,8 +358,8 @@ const BulletinGenerator = () => {
               style={{
                 width: "100%",
                 border: "1px solid #000",
-                marginTop: "5px",
-                fontSize: "7px",
+                marginTop: "8px",
+                fontSize: "8px",
                 borderCollapse: "collapse",
               }}
             >
@@ -366,7 +368,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -375,7 +377,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "2px" }}
+                    style={{ border: "1px solid #000", padding: "3px" }}
                   >
                     {data.annee}
                   </td>
@@ -384,7 +386,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -393,7 +395,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "2px" }}
+                    style={{ border: "1px solid #000", padding: "3px" }}
                   >
                     {data.classe}
                   </td>
@@ -402,7 +404,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -411,7 +413,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "2px" }}
+                    style={{ border: "1px solid #000", padding: "3px" }}
                   >
                     {data.effectif}
                   </td>
@@ -420,7 +422,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -429,7 +431,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "2px" }}
+                    style={{ border: "1px solid #000", padding: "3px" }}
                   >
                     {data.statut}
                   </td>
@@ -438,7 +440,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -447,7 +449,7 @@ const BulletinGenerator = () => {
                   <td
                     contentEditable
                     suppressContentEditableWarning
-                    style={{ border: "1px solid #000", padding: "2px" }}
+                    style={{ border: "1px solid #000", padding: "3px" }}
                   >
                     {data.sexe}
                   </td>
@@ -462,8 +464,8 @@ const BulletinGenerator = () => {
           style={{
             width: "100%",
             border: "1px solid #000",
-            marginBottom: "8px",
-            fontSize: "8px",
+            marginBottom: "12px",
+            fontSize: "9px",
             borderCollapse: "collapse",
           }}
         >
@@ -472,7 +474,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   fontWeight: "bold",
                   width: "10%",
                 }}
@@ -484,7 +486,7 @@ const BulletinGenerator = () => {
                 suppressContentEditableWarning
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   width: "40%",
                 }}
               >
@@ -493,7 +495,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   fontWeight: "bold",
                   width: "18%",
                 }}
@@ -505,7 +507,7 @@ const BulletinGenerator = () => {
                 suppressContentEditableWarning
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   width: "32%",
                 }}
               >
@@ -516,7 +518,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   fontWeight: "bold",
                 }}
               >
@@ -525,14 +527,14 @@ const BulletinGenerator = () => {
               <td
                 contentEditable
                 suppressContentEditableWarning
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "4px" }}
               >
                 {data.prenoms}
               </td>
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "4px",
                   fontWeight: "bold",
                 }}
               >
@@ -541,7 +543,7 @@ const BulletinGenerator = () => {
               <td
                 contentEditable
                 suppressContentEditableWarning
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "4px" }}
               >
                 {data.lieuNaissance}
               </td>
@@ -554,7 +556,7 @@ const BulletinGenerator = () => {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            fontSize: "7px",
+            fontSize: "8.5px",
             border: "1px solid #000",
           }}
         >
@@ -562,13 +564,13 @@ const BulletinGenerator = () => {
             <tr>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 MATIERES
               </th>
               <th
                 colSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Ntes clas
                 <br />
@@ -576,7 +578,7 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Moy cla
                 <br />
@@ -584,7 +586,7 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Comp
                 <br />
@@ -592,7 +594,7 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Moy
                 <br />
@@ -600,13 +602,13 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Coef
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Ntes
                 <br />
@@ -614,19 +616,19 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Rang
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Appréciation
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Noms des
                 <br />
@@ -634,14 +636,14 @@ const BulletinGenerator = () => {
               </th>
               <th
                 rowSpan="2"
-                style={{ border: "1px solid #000", padding: "2px" }}
+                style={{ border: "1px solid #000", padding: "3px" }}
               >
                 Signature
               </th>
             </tr>
             <tr>
-              <th style={{ border: "1px solid #000", padding: "1px" }}>1</th>
-              <th style={{ border: "1px solid #000", padding: "1px" }}>2</th>
+              <th style={{ border: "1px solid #000", padding: "2px" }}>1</th>
+              <th style={{ border: "1px solid #000", padding: "2px" }}>2</th>
             </tr>
           </thead>
           <tbody>
@@ -653,7 +655,7 @@ const BulletinGenerator = () => {
                     suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       fontWeight: "bold",
                     }}
                   >
@@ -662,7 +664,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "1px",
+                      padding: "2px",
                       textAlign: "center",
                     }}
                   >
@@ -676,7 +678,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "1px",
+                      padding: "2px",
                       textAlign: "center",
                     }}
                   >
@@ -690,7 +692,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                       background: "#fafafa",
                     }}
@@ -700,7 +702,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "1px",
+                      padding: "2px",
                       textAlign: "center",
                     }}
                   >
@@ -714,7 +716,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                       fontWeight: "bold",
                       background: "#f0fdf4",
@@ -727,7 +729,7 @@ const BulletinGenerator = () => {
                     suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                     }}
                   >
@@ -736,7 +738,7 @@ const BulletinGenerator = () => {
                   <td
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                       fontWeight: "bold",
                       background: "#f0fdf4",
@@ -749,7 +751,7 @@ const BulletinGenerator = () => {
                     suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                     }}
                   >
@@ -760,7 +762,7 @@ const BulletinGenerator = () => {
                     suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                     }}
                   >
@@ -771,13 +773,13 @@ const BulletinGenerator = () => {
                     suppressContentEditableWarning
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
                     }}
                   >
                     {s.prof}
                   </td>
-                  <td style={{ border: "1px solid #000", padding: "2px" }}></td>
+                  <td style={{ border: "1px solid #000", padding: "3px" }}></td>
                 </tr>
               );
             })}
@@ -786,7 +788,7 @@ const BulletinGenerator = () => {
                 colSpan="6"
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "3px",
                   textAlign: "right",
                 }}
               >
@@ -795,7 +797,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "3px",
                   textAlign: "center",
                 }}
               >
@@ -804,7 +806,7 @@ const BulletinGenerator = () => {
               <td
                 style={{
                   border: "1px solid #000",
-                  padding: "2px",
+                  padding: "3px",
                   textAlign: "center",
                 }}
               >
@@ -816,16 +818,16 @@ const BulletinGenerator = () => {
         </table>
 
         {/* Résultats et Décision */}
-        <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
+        <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
           {/* Gauche */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
             <div
               style={{
                 border: "1px solid #000",
                 background: "#d8bfd8",
-                padding: "2px",
+                padding: "3px",
                 textAlign: "center",
-                fontSize: "8px",
+                fontSize: "9px",
                 fontWeight: "bold",
               }}
             >
@@ -837,7 +839,7 @@ const BulletinGenerator = () => {
                   width: "100%",
                   height: "50%",
                   border: "1px solid #000",
-                  fontSize: "7px",
+                  fontSize: "8px",
                   borderTop: "none",
                   borderCollapse: "collapse",
                   tableLayout: "fixed",
@@ -848,7 +850,7 @@ const BulletinGenerator = () => {
                     <td
                       style={{
                         border: "1px solid #000",
-                        padding: "2px",
+                        padding: "3px",
                         fontWeight: "bold",
                         width: "35%",
                       }}
@@ -858,10 +860,10 @@ const BulletinGenerator = () => {
                     <td
                       style={{
                         border: "1px solid #000",
-                        padding: "2px",
+                        padding: "3px",
                         width: "15%",
                         fontWeight: "bold",
-                        fontSize: "10px",
+                        fontSize: "11px",
                         textAlign: "center",
                       }}
                     >
@@ -870,7 +872,7 @@ const BulletinGenerator = () => {
                     <td
                       style={{
                         border: "1px solid #000",
-                        padding: "2px",
+                        padding: "3px",
                         width: "35%",
                       }}
                     >
@@ -881,7 +883,7 @@ const BulletinGenerator = () => {
                       suppressContentEditableWarning
                       style={{
                         border: "1px solid #000",
-                        padding: "2px",
+                        padding: "3px",
                         width: "15%",
                       }}
                     >
@@ -891,15 +893,15 @@ const BulletinGenerator = () => {
                   <tr style={{ height: "26.66%" }}>
                     <td
                       colSpan="2"
-                      style={{ border: "1px solid #000", padding: "2px" }}
+                      style={{ border: "1px solid #000", padding: "3px" }}
                     ></td>
-                    <td style={{ border: "1px solid #000", padding: "2px" }}>
+                    <td style={{ border: "1px solid #000", padding: "3px" }}>
                       Plus faible moyenne sr 20
                     </td>
                     <td
                       contentEditable
                       suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "2px" }}
+                      style={{ border: "1px solid #000", padding: "3px" }}
                     >
                       {data.plusFaible}
                     </td>
@@ -908,7 +910,7 @@ const BulletinGenerator = () => {
                     <td
                       style={{
                         border: "1px solid #000",
-                        padding: "2px",
+                        padding: "3px",
                         fontWeight: "bold",
                       }}
                     >
@@ -917,17 +919,17 @@ const BulletinGenerator = () => {
                     <td
                       contentEditable
                       suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "2px" }}
+                      style={{ border: "1px solid #000", padding: "3px" }}
                     >
                       {data.rang}
                     </td>
-                    <td style={{ border: "1px solid #000", padding: "2px" }}>
+                    <td style={{ border: "1px solid #000", padding: "3px" }}>
                       Moy min/max sr 20
                     </td>
                     <td
                       contentEditable
                       suppressContentEditableWarning
-                      style={{ border: "1px solid #000", padding: "2px" }}
+                      style={{ border: "1px solid #000", padding: "3px" }}
                     >
                       {data.moyMinMax}
                     </td>
@@ -939,8 +941,8 @@ const BulletinGenerator = () => {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
-                  gap: "5px",
-                  marginTop: "5px",
+                  gap: "8px",
+                  marginTop: "8px",
                   flex: 1,
                 }}
               >
@@ -948,9 +950,9 @@ const BulletinGenerator = () => {
                   <div
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
-                      fontSize: "7px",
+                      fontSize: "8px",
                       fontWeight: "bold",
                     }}
                   >
@@ -967,6 +969,7 @@ const BulletinGenerator = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       borderTop: "none",
+                      fontSize: "10px",
                     }}
                   >
                     {data.absences}
@@ -976,9 +979,9 @@ const BulletinGenerator = () => {
                   <div
                     style={{
                       border: "1px solid #000",
-                      padding: "2px",
+                      padding: "3px",
                       textAlign: "center",
-                      fontSize: "7px",
+                      fontSize: "8px",
                       fontWeight: "bold",
                     }}
                   >
@@ -989,6 +992,7 @@ const BulletinGenerator = () => {
                       border: "1px solid #000",
                       flex: 1,
                       borderTop: "none",
+                      minHeight: "50px",
                     }}
                   ></div>
                 </div>
@@ -1002,9 +1006,9 @@ const BulletinGenerator = () => {
               style={{
                 border: "1px solid #000",
                 background: "#d8bfd8",
-                padding: "2px",
+                padding: "3px",
                 textAlign: "center",
-                fontSize: "8px",
+                fontSize: "9px",
                 fontWeight: "bold",
               }}
             >
@@ -1013,8 +1017,8 @@ const BulletinGenerator = () => {
             <div
               style={{
                 border: "1px solid #000",
-                padding: "5px",
-                fontSize: "7px",
+                padding: "8px",
+                fontSize: "8px",
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -1033,7 +1037,7 @@ const BulletinGenerator = () => {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    marginBottom: "3px",
+                    marginBottom: "5px",
                   }}
                 >
                   <span contentEditable suppressContentEditableWarning>
@@ -1050,131 +1054,130 @@ const BulletinGenerator = () => {
               <div
                 style={{
                   border: "1px solid #000",
-                  padding: "5px",
+                  padding: "8px",
                   marginTop: "auto",
-                  minHeight: "60px",
+                  minHeight: "80px",
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: "7px",
-                    fontWeight: "bold",
-                    marginBottom: "3px",
-                  }}
-                >
-                  Décision du conseil des profs:
-                </div>
-                <div
-                  contentEditable
-                  suppressContentEditableWarning
-                  style={{
-                    textAlign: "center",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {data.observation}
-                </div>
-              </div>
-            </div>
+                    fontSize: "8px",
+fontWeight: "bold",
+marginBottom: "5px",
+}}
+>
+Décision du conseil des profs:
+</div>
+<div
+contentEditable
+suppressContentEditableWarning
+style={{
+textAlign: "center",
+fontSize: "13px",
+fontWeight: "bold",
+}}
+>
+{data.observation}
+</div>
+</div>
+</div>
 
-            {/* Signatures */}
+{/* Signatures */}
+        <div
+          style={{
+            display: "flex",
+            border: "1px solid #000",
+            marginTop: "12px",
+            minHeight: "80px",
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              borderRight: "1px solid #000",
+              padding: "5px",
+              textAlign: "center",
+              fontSize: "8px",
+            }}
+          >
+            <div
+              style={{ fontWeight: "bold", textDecoration: "underline" }}
+            >
+              Titulaire
+            </div>
+            <div
+              contentEditable
+              suppressContentEditableWarning
+              style={{ marginTop: "40px" }}
+            >
+              {data.titulaire}
+            </div>
+          </div>
+          <div
+            style={{
+              flex: 1,
+              padding: "5px",
+              textAlign: "center",
+              fontSize: "8px",
+            }}
+          >
+            <div style={{ fontWeight: "bold" }}>
+              Fait à{" "}
+              <span contentEditable suppressContentEditableWarning>
+                {data.lieu}
+              </span>
+              , le{" "}
+              <span contentEditable suppressContentEditableWarning>
+                {data.date}
+              </span>
+            </div>
             <div
               style={{
-                display: "flex",
-                border: "1px solid #000",
-                marginTop: "8px",
-                minHeight: "60px",
+                fontWeight: "bold",
+                textDecoration: "underline",
+                margin: "5px 0",
               }}
             >
-              <div
-                style={{
-                  flex: 1,
-                  borderRight: "1px solid #000",
-                  padding: "3px",
-                  textAlign: "center",
-                  fontSize: "7px",
-                }}
-              >
-                <div
-                  style={{ fontWeight: "bold", textDecoration: "underline" }}
-                >
-                  Titulaire
-                </div>
-                <div
-                  contentEditable
-                  suppressContentEditableWarning
-                  style={{ marginTop: "30px" }}
-                >
-                  {data.titulaire}
-                </div>
-              </div>
-              <div
-                style={{
-                  flex: 1,
-                  padding: "3px",
-                  textAlign: "center",
-                  fontSize: "7px",
-                }}
-              >
-                <div style={{ fontWeight: "bold" }}>
-                  Fait à{" "}
-                  <span contentEditable suppressContentEditableWarning>
-                    {data.lieu}
-                  </span>
-                  , le{" "}
-                  <span contentEditable suppressContentEditableWarning>
-                    {data.date}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                    margin: "3px 0",
-                  }}
-                >
-                  LE DIRECTEUR
-                </div>
-                <div
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    border: "1px dashed #000",
-                    borderRadius: "50%",
-                    margin: "5px auto",
-                  }}
-                ></div>
-                <div
-                  contentEditable
-                  suppressContentEditableWarning
-                  style={{ marginTop: "5px" }}
-                >
-                  {data.directeur}
-                </div>
-              </div>
+              LE DIRECTEUR
+            </div>
+            <div
+              style={{
+                width: "60px",
+                height: "60px",
+                border: "1px dashed #000",
+                borderRadius: "50%",
+                margin: "8px auto",
+              }}
+            ></div>
+            <div
+              contentEditable
+              suppressContentEditableWarning
+              style={{ marginTop: "8px" }}
+            >
+              {data.directeur}
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div
-          style={{
-            fontSize: "6px",
-            textAlign: "center",
-            marginTop: "5px",
-            fontStyle: "italic",
-          }}
-        >
-          Il n'est délivré qu'un seul exemplaire de bulletin en cas de perte,un
-          duplicata pourra être fourni en tant que copie certifiée par
-          l'autorité compétente.
-        </div>
       </div>
     </div>
-  );
-};
 
+    {/* Footer */}
+    <div
+      style={{
+        fontSize: "7px",
+        textAlign: "center",
+        marginTop: "8px",
+        fontStyle: "italic",
+      }}
+    >
+      Il n'est délivré qu'un seul exemplaire de bulletin en cas de perte,un
+      duplicata pourra être fourni en tant que copie certifiée par
+      l'autorité compétente.
+    </div>
+  </div>
+</div>
+);
+};
 export default BulletinGenerator;
