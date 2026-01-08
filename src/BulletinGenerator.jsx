@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Printer } from 'lucide-react';
+import { Printer } from 'lucide-react';
 
 const BulletinGenerator = () => {
   const [data, setData] = useState({
@@ -9,42 +9,100 @@ const BulletinGenerator = () => {
     etablissement: "CPL EXCELLENCE",
     devise: "TRAVAIL-RIGUEUR-REUSSITE",
     contact: "BP: KARA-TOGO | TEL:+22892586723",
-    annee: "2024-2025",
-    classe: "4ème",
-    effectif: "27",
-    statut: "Nouveaux",
-    sexe: "M",
-    nom: "NDODOU",
-    prenoms: "Martin Aimé",
-    dateNaissance: "11/07/2011",
-    lieuNaissance: "KARA",
+    annee: "2025-2026",
+    classe: "",
+    effectif: "",
+    statut: "",
+    sexe: "",
+    nom: "",
+    prenoms: "",
+    dateNaissance: "",
+    lieuNaissance: "",
     trimestre: "PREMIER TRIMESTRE",
     subjects: [
-      { name: "Français", n1: 12, n2: 10, comp: 11, moyTrim: 11.50, coef: 3, ntesDef: 34.50, rang: "88è", appr: "Passable", prof: "DOUTI" },
-      { name: "Anglais", n1: 13, n2: 10, comp: 11.50, moyTrim: 14.00, coef: 2, ntesDef: 12.75, rang: "7è", appr: "Assez-bien", prof: "BOYODI" },
-      { name: "Histoire Géographie", n1: 17, n2: 13, comp: 15.00, moyTrim: 13.00, coef: 2, ntesDef: 14.00, rang: "88", appr: "Bien", prof: "YATOUTI" },
-      { name: "ECM", n1: 11, n2: 13, comp: 12.00, moyTrim: 16.00, coef: 2, ntesDef: 14.00, rang: "7è", appr: "Bien", prof: "YATOUTI" },
-      { name: "SVT", n1: 19, n2: 15, comp: 17.00, moyTrim: 16.00, coef: 2, ntesDef: 16.50, rang: "7è", appr: "Très bien", prof: "PADJAKOMA" },
-      { name: "PCT", n1: 16, n2: 13, comp: 14.50, moyTrim: 13.00, coef: 3, ntesDef: 13.75, rang: "56èx", appr: "Assez-bien", prof: "KPENLA" },
-      { name: "Mathématiques", n1: 11, n2: 12, comp: 11.50, moyTrim: 10.00, coef: 3, ntesDef: 10.75, rang: "7è", appr: "Passable", prof: "PADJAKOMA" },
-      { name: "EPS", n1: 14, n2: 14, comp: 14.00, moyTrim: 14.00, coef: 1, ntesDef: 14.00, rang: "168èx", appr: "Bien", prof: "DJATO" }
+      { name: "Français", n1: "", n2: "", comp: "", coef: 3, rang: "", appr: "", prof: "" },
+      { name: "Anglais", n1: "", n2: "", comp: "", coef: 2, rang: "", appr: "", prof: "" },
+      { name: "Histoire Géographie", n1: "", n2: "", comp: "", coef: 2, rang: "", appr: "", prof: "" },
+      { name: "ECM", n1: "", n2: "", comp: "", coef: 2, rang: "", appr: "", prof: "" },
+      { name: "SVT", n1: "", n2: "", comp: "", coef: 2, rang: "", appr: "", prof: "" },
+      { name: "PCT", n1: "", n2: "", comp: "", coef: 3, rang: "", appr: "", prof: "" },
+      { name: "Mathématiques", n1: "", n2: "", comp: "", coef: 3, rang: "", appr: "", prof: "" },
+      { name: "EPS", n1: "", n2: "", comp: "", coef: 1, rang: "", appr: "", prof: "" }
     ],
-    moyTrim: "13,14",
-    plusForte: "17,56",
-    plusFaible: "7,94",
-    moyMinMax: "11,79",
-    rang: "7ème",
-    absences: "0",
-    observation: "Assez-bien",
-    tableauHonneur: true,
-    titulaire: "M.DOUTI",
-    directeur: "M. WIYAGOUDA Bamazi",
-    date: "07/05/2025",
-    lieu: "KARA"
+    plusForte: "",
+    plusFaible: "",
+    moyMinMax: "",
+    rang: "",
+    absences: "",
+    observation: "",
+    tableauHonneur: false,
+    titulaire: "",
+    directeur: "",
+    date: "",
+    lieu: ""
   });
 
-  const totalCoef = data.subjects.reduce((acc, s) => acc + s.coef, 0);
-  const totalNotes = data.subjects.reduce((acc, s) => acc + parseFloat(s.ntesDef), 0);
+  const updateSubject = (index, field, value) => {
+    const newSubjects = [...data.subjects];
+    newSubjects[index] = { ...newSubjects[index], [field]: value };
+    setData({ ...data, subjects: newSubjects });
+  };
+
+  // --- CALCULS AUTOMATIQUES ---
+
+  // 1. Calculer les lignes individuelles
+  const processedSubjects = data.subjects.map(s => {
+    const n1 = parseFloat(s.n1);
+    const n2 = parseFloat(s.n2);
+    const comp = parseFloat(s.comp);
+    
+    // Vérifier si les nombres sont valides pour éviter d'afficher "NaN"
+    const hasN1 = !isNaN(n1);
+    const hasN2 = !isNaN(n2);
+    const hasComp = !isNaN(comp);
+
+    // Calcul Moyenne Classe (pour affichage seulement, si besoin)
+    let moyCla = "";
+    if (hasN1 && hasN2) moyCla = ((n1 + n2) / 2).toFixed(2);
+    else if (hasN1) moyCla = n1.toFixed(2);
+    else if (hasN2) moyCla = n2.toFixed(2);
+
+    // Note Max pour le calcul demandé
+    let maxNoteClasse = 0;
+    if (hasN1 && hasN2) maxNoteClasse = Math.max(n1, n2);
+    else if (hasN1) maxNoteClasse = n1;
+    else if (hasN2) maxNoteClasse = n2;
+
+    // Calcul Moyenne Trimestrielle: (Max(n1, n2) + Comp) / 2
+    let moyTrimVal = 0;
+    let ntesDefVal = 0;
+    let moyTrimDisplay = "";
+    let ntesDefDisplay = "";
+
+    // On calcule seulement si on a au moins une note de classe ET une compo
+    if ((hasN1 || hasN2) && hasComp) {
+      moyTrimVal = (maxNoteClasse + comp) / 2;
+      ntesDefVal = moyTrimVal * s.coef;
+      
+      moyTrimDisplay = moyTrimVal.toFixed(2);
+      ntesDefDisplay = ntesDefVal.toFixed(2);
+    }
+
+    return {
+      ...s,
+      moyClaDisplay: moyCla,
+      moyTrimDisplay,
+      ntesDefDisplay,
+      rawNtesDef: ntesDefVal // Sert pour le total
+    };
+  });
+
+  // 2. Calculer les Totaux Généraux
+  const totalCoef = processedSubjects.reduce((acc, s) => acc + s.coef, 0);
+  const totalNotes = processedSubjects.reduce((acc, s) => acc + s.rawNtesDef, 0);
+  
+  // 3. Calculer la Moyenne Générale
+  const moyenneGenerale = totalCoef > 0 ? (totalNotes / totalCoef).toFixed(2) : "";
 
   return (
     <div style={{ minHeight: '100vh', padding: '10px', background: '#f3f4f6', fontFamily: 'Arial, sans-serif' }}>
@@ -52,15 +110,21 @@ const BulletinGenerator = () => {
         @media print {
           .print-hidden { display: none !important; }
           body { background: white; }
-          @page { size: A4; margin: 5mm; }
+          @page { size: A4; margin: 0; }
         }
         input, textarea { border: none; background: transparent; outline: none; }
         input:focus, textarea:focus { background: #fff3cd; }
         input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button { display: none; }
+        input[type="number"]::-webkit-outer-spin-button { 
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
       `}</style>
 
-      <div style={{ maxWidth: '210mm', margin: '0 auto', background: '#ffc0cb', padding: '15px' }}>
+      <div style={{ maxWidth: '210mm', margin: '0 auto', background: 'white', padding: '15px' }}>
         
         {/* Toolbar */}
         <div className="print-hidden" style={{ display: 'flex', gap: '10px', marginBottom: '10px', justifyContent: 'center' }}>
@@ -74,13 +138,14 @@ const BulletinGenerator = () => {
           {/* Gauche */}
           <div style={{ width: '38%', fontSize: '9px', textAlign: 'center' }}>
             <div style={{ fontWeight: 'bold' }}>
-              {data.ministere.split('\n').map((line, i) => (
-                <div key={i} contentEditable suppressContentEditableWarning>{line}</div>
-              ))}
+              <div contentEditable suppressContentEditableWarning>MINISTERE DES ENSEIGNEMENTS</div>
+              <div contentEditable suppressContentEditableWarning>PRIMAIRE ET SECONDAIRE</div>
             </div>
             <div contentEditable suppressContentEditableWarning style={{ fontWeight: 'bold' }}>{data.dre}</div>
             <div contentEditable suppressContentEditableWarning style={{ fontWeight: 'bold' }}>{data.iesg}</div>
-            <div style={{ margin: '8px auto', width: '55px', height: '55px', border: '2px solid #000', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white' }}>🎓</div>
+            <div style={{ margin: '8px auto', width: '55px', height: '55px',  borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', overflow: 'hidden' }}>
+              <img src="src/assets/CIP.jpg" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </div>
             <div contentEditable suppressContentEditableWarning style={{ fontWeight: 'bold', fontSize: '11px' }}>{data.etablissement}</div>
             <div contentEditable suppressContentEditableWarning style={{ fontSize: '7px' }}>{data.devise}</div>
             <div contentEditable suppressContentEditableWarning style={{ fontSize: '7px', marginTop: '3px' }}>{data.contact}</div>
@@ -88,8 +153,8 @@ const BulletinGenerator = () => {
 
           {/* Centre */}
           <div style={{ width: '32%', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-            <h2 contentEditable suppressContentEditableWarning style={{ fontSize: '10px', fontWeight: 'bold', margin: 0 }}>
-              BULLETIN DE NOTES DU {data.trimestre}
+            <h2 style={{ fontSize: '10px', fontWeight: 'bold', margin: 0 }}>
+              BULLETIN DE NOTES DU <span contentEditable suppressContentEditableWarning>{data.trimestre}</span>
             </h2>
           </div>
 
@@ -97,27 +162,35 @@ const BulletinGenerator = () => {
           <div style={{ width: '28%', fontSize: '9px', textAlign: 'center' }}>
             <div contentEditable suppressContentEditableWarning style={{ fontWeight: 'bold' }}>REPUBLIQUE TOGOLAISE</div>
             <div contentEditable suppressContentEditableWarning style={{ fontStyle: 'italic', fontSize: '8px' }}>Travail-Liberté-Patrie</div>
-            <table style={{ width: '100%', border: '1px solid #000', marginTop: '5px', fontSize: '7px' }}>
+            <table style={{ width: '100%', border: '1px solid #000', marginTop: '5px', fontSize: '7px', borderCollapse: 'collapse' }}>
               <tbody>
-                {[
-                  ['Année', data.annee],
-                  ['Classe', data.classe],
-                  ['Effectif', data.effectif],
-                  ['Statut', data.statut],
-                  ['Sexe', data.sexe]
-                ].map(([label, val], i) => (
-                  <tr key={i}>
-                    <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>{label}</td>
-                    <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{val}</td>
-                  </tr>
-                ))}
+                <tr>
+                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Année</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.annee}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Classe</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.classe}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Effectif</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.effectif}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Statut</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.statut}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Sexe</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.sexe}</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
 
         {/* Info Élève */}
-        <table style={{ width: '100%', border: '1px solid #000', marginBottom: '8px', fontSize: '8px' }}>
+        <table style={{ width: '100%', border: '1px solid #000', marginBottom: '8px', fontSize: '8px', borderCollapse: 'collapse' }}>
           <tbody>
             <tr>
               <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold', width: '10%' }}>Nom:</td>
@@ -156,22 +229,45 @@ const BulletinGenerator = () => {
             </tr>
           </thead>
           <tbody>
-            {data.subjects.map((s, i) => (
-              <tr key={i}>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>{s.name}</td>
-                <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}><input type="number" value={s.n1} style={{ width: '100%', textAlign: 'center' }} /></td>
-                <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}><input type="number" value={s.n2} style={{ width: '100%', textAlign: 'center' }} /></td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{(s.n1 + s.n2) / 2}</td>
-                <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}><input type="number" value={s.comp} style={{ width: '100%', textAlign: 'center' }} /></td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontWeight: 'bold' }}>{s.moyTrim}</td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.coef}</td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontWeight: 'bold' }}>{s.ntesDef}</td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.rang}</td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.appr}</td>
-                <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.prof}</td>
-                <td style={{ border: '1px solid #000', padding: '2px' }}></td>
-              </tr>
-            ))}
+            {processedSubjects.map((s, i) => {
+              return (
+                <tr key={i}>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>{s.name}</td>
+                  <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}>
+                    <input 
+                      type="number" 
+                      value={s.n1} 
+                      onChange={(e) => updateSubject(i, 'n1', e.target.value)}
+                      style={{ width: '100%', textAlign: 'center' }} 
+                    />
+                  </td>
+                  <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}>
+                    <input 
+                      type="number" 
+                      value={s.n2} 
+                      onChange={(e) => updateSubject(i, 'n2', e.target.value)}
+                      style={{ width: '100%', textAlign: 'center' }} 
+                    />
+                  </td>
+                  <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', background: '#fafafa' }}>{s.moyClaDisplay}</td>
+                  <td style={{ border: '1px solid #000', padding: '1px', textAlign: 'center' }}>
+                    <input 
+                      type="number" 
+                      value={s.comp} 
+                      onChange={(e) => updateSubject(i, 'comp', e.target.value)}
+                      style={{ width: '100%', textAlign: 'center' }} 
+                    />
+                  </td>
+                  <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontWeight: 'bold', background: '#f0fdf4' }}>{s.moyTrimDisplay}</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.coef}</td>
+                  <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontWeight: 'bold', background: '#f0fdf4' }}>{s.ntesDefDisplay}</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.rang}</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.appr}</td>
+                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{s.prof}</td>
+                  <td style={{ border: '1px solid #000', padding: '2px' }}></td>
+                </tr>
+              );
+            })}
             <tr style={{ background: '#d8bfd8', fontWeight: 'bold' }}>
               <td colSpan="6" style={{ border: '1px solid #000', padding: '2px', textAlign: 'right' }}>Totaux:</td>
               <td style={{ border: '1px solid #000', padding: '2px', textAlign: 'center' }}>{totalCoef}</td>
@@ -182,57 +278,59 @@ const BulletinGenerator = () => {
         </table>
 
         {/* Résultats et Décision */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
           
           {/* Gauche */}
-          <div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <div style={{ border: '1px solid #000', background: '#d8bfd8', padding: '2px', textAlign: 'center', fontSize: '8px', fontWeight: 'bold' }}>RESULTATS DE L'ELEVE</div>
-            <table style={{ width: '100%', border: '1px solid #000', fontSize: '7px' }}>
-              <tbody>
-                <tr>
-                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Moyenne trimestrielle:</td>
-                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.moyTrim}</td>
-                  <td style={{ border: '1px solid #000', padding: '2px' }}>Plus forte my sr 20</td>
-                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.plusForte}</td>
-                </tr>
-                <tr>
-                  <td colSpan="2" style={{ border: '1px solid #000', padding: '2px' }}></td>
-                  <td style={{ border: '1px solid #000', padding: '2px' }}>Plus faible my sr 20</td>
-                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.plusFaible}</td>
-                </tr>
-                <tr>
-                  <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Rang:</td>
-                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.rang}</td>
-                  <td style={{ border: '1px solid #000', padding: '2px' }}>Moy min/max sr 20</td>
-                  <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.moyMinMax}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <table style={{ width: '100%',height: '50%', border: '1px solid #000', fontSize: '7px', borderTop: 'none', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+                <tbody>
+                  <tr style={{ height: '26.66%' }}>
+                    <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold', width: '35%' }}>Moyenne trimestrielle:</td>
+                    <td style={{ border: '1px solid #000', padding: '2px', width: '15%', fontWeight: 'bold', fontSize: '10px', textAlign: 'center' }}>{moyenneGenerale}</td>
+                    <td style={{ border: '1px solid #000', padding: '2px', width: '35%' }}>Plus forte moyenne sr 20</td>
+                    <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px', width: '15%' }}>{data.plusForte}</td>
+                  </tr>
+                  <tr style={{ height: '26.66%' }}>
+                    <td colSpan="2" style={{ border: '1px solid #000', padding: '2px' }}></td>
+                    <td style={{ border: '1px solid #000', padding: '2px' }}>Plus faible moyenne sr 20</td>
+                    <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.plusFaible}</td>
+                  </tr>
+                  <tr style={{ height: '26.66%' }}>
+                    <td style={{ border: '1px solid #000', padding: '2px', fontWeight: 'bold' }}>Rang:</td>
+                    <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.rang}</td>
+                    <td style={{ border: '1px solid #000', padding: '2px' }}>Moy min/max sr 20</td>
+                    <td contentEditable suppressContentEditableWarning style={{ border: '1px solid #000', padding: '2px' }}>{data.moyMinMax}</td>
+                  </tr>
+                </tbody>
+              </table>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px', marginTop: '5px' }}>
-              <div>
-                <div style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontSize: '7px', fontWeight: 'bold' }}>Nombre d'heures d'absence</div>
-                <input contentEditable suppressContentEditableWarning value={data.absences} style={{ width: '100%', textAlign: 'center', border: '1px solid #000', padding: '8px' }} />
-              </div>
-              <div>
-                <div style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontSize: '7px', fontWeight: 'bold' }}>Observation du chef d'établissement</div>
-                <div style={{ border: '1px solid #000', minHeight: '35px' }}></div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px', marginTop: '5px', flex: 1 }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontSize: '7px', fontWeight: 'bold' }}>Nombre d'heures d'absence</div>
+                  <div contentEditable suppressContentEditableWarning style={{ flex: 1, textAlign: 'center', border: '1px solid #000', display: 'flex', alignItems: 'center', justifyContent: 'center', borderTop: 'none' }}>{data.absences}</div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ border: '1px solid #000', padding: '2px', textAlign: 'center', fontSize: '7px', fontWeight: 'bold' }}>Observation du chef d'établissement</div>
+                  <div style={{ border: '1px solid #000', flex: 1, borderTop: 'none' }}></div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Droite */}
-          <div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <div style={{ border: '1px solid #000', background: '#d8bfd8', padding: '2px', textAlign: 'center', fontSize: '8px', fontWeight: 'bold' }}>DECISION DU CONSEIL</div>
-            <div style={{ border: '1px solid #000', padding: '5px', fontSize: '7px' }}>
+            <div style={{ border: '1px solid #000', padding: '5px', fontSize: '7px', flex: 1, display: 'flex', flexDirection: 'column', borderTop: 'none' }}>
               {['Félicitations', 'Encouragement', "Tableau d'honneur", 'Avertissement', 'Blâme'].map((item, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
                   <span contentEditable suppressContentEditableWarning>{item}</span>
-                  <input type="checkbox" checked={i === 2 && data.tableauHonneur} />
+                  <input type="checkbox" checked={i === 2 && data.tableauHonneur} onChange={() => {}} />
                 </div>
               ))}
               
-              <div style={{ border: '1px solid #000', padding: '5px', marginTop: '8px', minHeight: '40px' }}>
+              <div style={{ border: '1px solid #000', padding: '5px', marginTop: 'auto', minHeight: '60px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontSize: '7px', fontWeight: 'bold', marginBottom: '3px' }}>Décision du conseil des profs:</div>
                 <div contentEditable suppressContentEditableWarning style={{ textAlign: 'center', fontSize: '12px', fontWeight: 'bold' }}>{data.observation}</div>
               </div>
@@ -245,7 +343,7 @@ const BulletinGenerator = () => {
                 <div contentEditable suppressContentEditableWarning style={{ marginTop: '30px' }}>{data.titulaire}</div>
               </div>
               <div style={{ flex: 1, padding: '3px', textAlign: 'center', fontSize: '7px' }}>
-                <div contentEditable suppressContentEditableWarning style={{ fontWeight: 'bold' }}>Fait à {data.lieu}, le {data.date}</div>
+                <div style={{ fontWeight: 'bold' }}>Fait à <span contentEditable suppressContentEditableWarning>{data.lieu}</span>, le <span contentEditable suppressContentEditableWarning>{data.date}</span></div>
                 <div style={{ fontWeight: 'bold', textDecoration: 'underline', margin: '3px 0' }}>LE DIRECTEUR</div>
                 <div style={{ width: '50px', height: '50px', border: '1px dashed #000', borderRadius: '50%', margin: '5px auto' }}></div>
                 <div contentEditable suppressContentEditableWarning style={{ marginTop: '5px' }}>{data.directeur}</div>
