@@ -1166,7 +1166,7 @@ fontWeight: "bold",
     {/* Footer */}
     <div
       style={{
-        fontSize: "7px",
+        fontSize: "9px",
         textAlign: "center",
         marginTop: "8px",
         fontStyle: "italic",
