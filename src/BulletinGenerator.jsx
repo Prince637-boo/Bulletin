@@ -258,7 +258,7 @@ const BulletinGenerator = () => {
                 width: "80px",
                 height: "80px",
                 borderRadius: "50%",
-                border: "2px solid #000",
+                border: "2px solid #ffffffff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -758,319 +758,264 @@ const BulletinGenerator = () => {
           </tbody>
         </table>
 
-        {/* Résultats et Décisions */}
-        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-          {/* Gauche - Résultats */}
-          <div style={{ flex: 1, border: "2px solid #000" }}>
-            <div
-              style={{
+{/* --- DÉBUT DE LA PARTIE BASSE (INTERACTIVE) --- */}
+        
+        <div style={{ display: "flex", border: "2px solid #000", borderTop: "none", fontFamily: "Arial, sans-serif", color: "#000", fontSize: "11px" }}>
+          
+          {/* ================= COLONNE GAUCHE ================= */}
+          <div style={{ flex: 1, borderRight: "2px solid #000", display: "flex", flexDirection: "column" }}>
+            
+            {/* BLOC 1: RESULTATS DE L'ELEVE */}
+            <div>
+              <div style={{ 
+                fontWeight: "bold", 
+                textAlign: "center", 
+                borderBottom: "1px solid #000", 
                 background: "#f0f0f0",
-                padding: "5px",
-                textAlign: "center",
-                fontSize: "11px",
-                fontWeight: "bold",
-                borderBottom: "1px solid #000",
-              }}
-            >
-              RESULTATS DE L'ELEVE
-            </div>
-            <table
-              style={{
-                width: "100%",
-                fontSize: "10px",
-                borderCollapse: "collapse",
-              }}
-            >
-              <tbody>
-                <tr>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      fontWeight: "bold",
-                      width: "50%",
-                    }}
-                  >
-                    Moyenne trimestrielle:
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {moyenneGenerale}
-                  </td>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                    }}
-                  >
-                    Plus forte moy sr 20
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "15px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {data.plusForte}
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    rowSpan="2"
-                    colSpan="2"
-                    style={{ border: "1px solid #000", padding: "5px" }}
-                  ></td>
-                  <td style={{ border: "1px solid #000", padding: "5px" }}>
-                    Plus faible moy sr 20
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {data.plusFaible}
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ border: "1px solid #000", padding: "5px" }}>
-                    Moy min/max sr 20
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {data.moyMinMax}
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Rang:
-                  </td>
-                  <td
-                    contentEditable
-                    suppressContentEditableWarning
-                    style={{
-                      border: "1px solid #000",
-                      padding: "5px",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {data.rang}
-                  </td>
-                  <td colSpan="2" style={{ border: "1px solid #000" }}></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div style={{ display: "flex", borderTop: "1px solid #000" }}>
-              <div style={{ flex: 1, borderRight: "1px solid #000", textAlign: "center" }}>
-                <div
-                  style={{
-                    padding: "5px",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    borderBottom: "1px solid #000",
-                  }}
-                >
-                  Nombre d'heures d'absence
+                padding: "2px",
+                fontSize: "11px"
+              }}>
+                RESULTATS DE L'ELEVE
+              </div>
+              
+              {/* Ligne Moyenne */}
+              <div style={{ display: "flex", borderBottom: "1px solid #000" }}>
+                <div style={{ flex: 1, padding: "4px", fontWeight: "bold", borderRight: "1px solid #000" }}>
+                  Moyenne trimestrielle:
                 </div>
-                <div
-                  contentEditable
+                <div 
+                  contentEditable 
                   suppressContentEditableWarning
-                  style={{
-                    padding: "20px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                  }}
+                  style={{ width: "60px", padding: "4px", textAlign: "center", fontWeight: "bold", fontSize: "12px", outline: "none", background: "#fff" }}
                 >
-                  {data.absences}
+                  {moyenneGenerale}
                 </div>
               </div>
-              <div style={{ flex: 1, textAlign: "center" }}>
-                <div
-                  style={{
-                    padding: "5px",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    borderBottom: "1px solid #000",
-                  }}
-                >
-                  Observation du chef d'établissement
+
+              {/* Ligne Rang */}
+              <div style={{ display: "flex", borderBottom: "1px solid #000" }}>
+                <div style={{ flex: 1, padding: "4px", fontWeight: "bold", borderRight: "1px solid #000" }}>
+                  Rang:
                 </div>
-                <div style={{ padding: "20px", minHeight: "60px" }}></div>
+                <div 
+                  contentEditable 
+                  suppressContentEditableWarning
+                  style={{ width: "60px", padding: "4px", textAlign: "center", fontWeight: "bold", fontSize: "12px", outline: "none", background: "#fff" }}
+                >
+                  {data.rang}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Droite - Décisions */}
-          <div style={{ flex: 1, border: "2px solid #000" }}>
-            <div
-              style={{
-                background: "#f0f0f0",
-                padding: "5px",
-                textAlign: "center",
-                fontSize: "11px",
-                fontWeight: "bold",
-                borderBottom: "1px solid #000",
-              }}
-            >
-              DECISION DU CONSEIL
-            </div>
-            <div style={{ padding: "10px", fontSize: "10px" }}>
-              {[
-                "Félicitations",
-                "Encouragement",
-                "Tableau d'honneur",
-                "Avertissement",
-                "Blâme",
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "8px",
-                    alignItems: "center",
-                  }}
-                >
-                  <span>{item}</span>
-                  <input
-                    type="checkbox"
-                    checked={i === 2 && data.tableauHonneur}
-                    onChange={() => {}}
-                    style={{ width: "18px", height: "18px" }}
-                  />
-                </div>
-              ))}
-
-              <div
-                style={{
-                  border: "2px solid #000",
-                  padding: "10px",
-                  marginTop: "15px",
-                  minHeight: "80px",
-                }}
+            {/* BLOC 2: ABSENCES */}
+            <div style={{ borderBottom: "1px solid #000", padding: "2px" }}>
+              <div style={{ fontSize: "10px", textAlign: "center", fontWeight: "bold", marginBottom: "2px" }}>
+                Nombre d'heures d'absence
+              </div>
+              <div 
+                contentEditable 
+                suppressContentEditableWarning
+                style={{ textAlign: "center", fontWeight: "bold", fontSize: "12px", padding: "5px", outline: "none", minHeight: "20px" }}
               >
-                <div
-                  style={{
-                    fontSize: "9px",
-                    marginBottom: "8px",
-                  }}
-                >
-                  Décision du conseil des profs:</div>
-                <div
-                  contentEditable
+                {data.absences || "0"}
+              </div>
+            </div>
+
+            {/* BLOC 3: DECISION DU CONSEIL (Checkboxes) */}
+            <div style={{ padding: "5px", flex: 1, display: "flex", flexDirection: "column" }}>
+              <div style={{ 
+                fontWeight: "bold", 
+                textAlign: "center", 
+                textDecoration: "underline", 
+                marginBottom: "5px", 
+                fontSize: "11px" 
+              }}>
+                DECISION DU CONSEIL
+              </div>
+
+              <div style={{ fontSize: "10px", paddingLeft: "5px", paddingRight: "5px" }}>
+                {["Félicitations", "Encouragement", "Tableau d'honneur", "Avertissement", "Blâme"].map((item, i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                    <span>{item}</span>
+                    {/* Checkbox fonctionnelle */}
+                    <input 
+                        type="checkbox" 
+                        style={{ width: "16px", height: "16px", margin: 0, cursor: "pointer" }} 
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Bloc arrondi: Décision des profs */}
+              <div style={{ 
+                border: "2px solid #000", 
+                borderRadius: "15px", 
+                padding: "5px", 
+                marginTop: "10px", 
+                minHeight: "40px",
+                display: "flex",
+                flexDirection: "column"
+              }}>
+                <span style={{ fontSize: "9px", fontWeight: "bold", textDecoration: "underline" }}>Décision du conseil des profs:</span>
+                <div 
+                  contentEditable 
                   suppressContentEditableWarning
-                  style={{
-                    textAlign: "center",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    marginTop: "10px",
-                  }}
+                  style={{ textAlign: "center", fontWeight: "bold", fontSize: "12px", marginTop: "auto", marginBottom: "auto", outline: "none", width: "100%" }}
                 >
-                  {data.observation}
+                  {data.observation || "Assez-bien"}
+                </div>
+              </div>
+
+              {/* Bloc arrondi: Titulaire */}
+              <div style={{ 
+                border: "2px solid #000", 
+                borderRadius: "15px", 
+                padding: "8px", 
+                marginTop: "10px", 
+                minHeight: "100px",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between"
+              }}>
+                 <div style={{ fontWeight: "bold", fontSize: "11px", textDecoration: "underline" }}>Titulaire</div>
+                 
+                 {/* Zone vide pour signature manuscrite */}
+                 <div style={{ flex: 1 }}></div>
+
+                 {/* Nom du titulaire modifiable */}
+                 <div 
+                   contentEditable 
+                   suppressContentEditableWarning
+                   style={{ fontWeight: "bold", fontSize: "11px", outline: "none", borderBottom: "1px dashed #ccc" }}
+                 >
+                   {data.titulaire || "M. DOUTI"}
+                 </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* ================= COLONNE DROITE ================= */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            
+            {/* BLOC 1: STATISTIQUES (Tableau) */}
+            <div style={{ fontSize: "10px" }}>
+              {/* Ligne 1 */}
+              <div style={{ display: "flex", borderBottom: "1px solid #000" }}>
+                <div style={{ flex: 1, padding: "5px", borderRight: "1px solid #000" }}>Plus forte moy sur 20</div>
+                <div 
+                  contentEditable 
+                  suppressContentEditableWarning
+                  style={{ width: "50px", padding: "5px", textAlign: "center", fontWeight: "bold", outline: "none" }}
+                >
+                    {data.plusForte}
+                </div>
+              </div>
+              {/* Ligne 2 */}
+              <div style={{ display: "flex", borderBottom: "1px solid #000" }}>
+                <div style={{ flex: 1, padding: "5px", borderRight: "1px solid #000" }}>Plus faible moy sur 20</div>
+                <div 
+                  contentEditable 
+                  suppressContentEditableWarning
+                  style={{ width: "50px", padding: "5px", textAlign: "center", fontWeight: "bold", outline: "none" }}
+                >
+                    {data.plusFaible}
+                </div>
+              </div>
+              {/* Ligne 3 */}
+              <div style={{ display: "flex", borderBottom: "1px solid #000" }}>
+                <div style={{ flex: 1, padding: "5px", borderRight: "1px solid #000" }}>Moy trim clas sur 20</div>
+                <div 
+                  contentEditable 
+                  suppressContentEditableWarning
+                  style={{ width: "50px", padding: "5px", textAlign: "center", fontWeight: "bold", outline: "none" }}
+                >
+                    {data.moyMinMax}
                 </div>
               </div>
             </div>
 
-            {/* Signatures */}
-        <div style={{ display: "flex", borderTop: "1px solid #000", minHeight: "100px" }}>
-          <div
-            style={{
-              flex: 1,
-              borderRight: "1px solid #000",
-              padding: "10px",
-              textAlign: "center",
-              fontSize: "10px",
-            }}
-          >
-            <div style={{ fontWeight: "bold", marginBottom: "30px" }}>Titulaire</div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ marginTop: "auto", fontWeight: "bold" }}
-            >
-              {data.titulaire}
+            {/* BLOC 2: OBSERVATION DU CHEF */}
+            <div style={{ borderBottom: "1px solid #000", flex: 1, display: "flex", flexDirection: "column" }}>
+               <div style={{ 
+                 background: "#f0f0f0", 
+                 padding: "3px", 
+                 textAlign: "center", 
+                 fontWeight: "bold", 
+                 fontSize: "10px", 
+                 borderBottom: "1px solid #000" 
+               }}>
+                 Observation du chef d'établissement
+               </div>
+               <div 
+                 contentEditable 
+                 suppressContentEditableWarning
+                 style={{ 
+                   padding: "10px", 
+                   textAlign: "center", 
+                   fontWeight: "bold", 
+                   fontSize: "14px",
+                   flex: 1,
+                   display: "flex",
+                   alignItems: "center",
+                   justifyContent: "center",
+                   outline: "none"
+                 }}
+               >
+                 {data.observationChef || "Assez-bien"}
+               </div>
             </div>
-          </div>
-          <div
-            style={{
-              flex: 1,
-              padding: "10px",
-              textAlign: "center",
-              fontSize: "10px",
-            }}
-          >
-            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>
-              Fait à{" "}
-              <span contentEditable suppressContentEditableWarning>
-                {data.lieu}
-              </span>
-              , le{" "}
-              <span contentEditable suppressContentEditableWarning>
-                {data.date}
-              </span>
+
+            {/* BLOC 3: LE DIRECTEUR (Bloc arrondi en bas à droite) */}
+            <div style={{ padding: "10px", marginTop: "auto" }}>
+              <div style={{ 
+                border: "2px solid #000", 
+                borderRadius: "20px", 
+                padding: "10px", 
+                textAlign: "center",
+                minHeight: "150px",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column"
+              }}>
+                <div style={{ fontSize: "10px", marginBottom: "5px" }}>
+                  Fait à <span contentEditable suppressContentEditableWarning style={{fontWeight: "bold", outline: "none"}}>{data.lieu || "Kara"}</span>, 
+                  le <span contentEditable suppressContentEditableWarning style={{fontWeight: "bold", outline: "none"}}>{data.date || "07/05/2025"}</span>
+                </div>
+                
+                <div style={{ fontWeight: "bold", fontSize: "11px", textDecoration: "underline", marginBottom: "10px" }}>
+                  LE DIRECTEUR
+                </div>
+                
+                {/* Zone du tampon (Cercle vide pour laisser la place) */}
+                <div style={{ flex: 1 }}></div>
+
+                <div 
+                  contentEditable 
+                  suppressContentEditableWarning
+                  style={{ fontWeight: "bold", fontSize: "12px", outline: "none", borderBottom: "1px dashed #ccc" }}
+                >
+                  {data.directeur || "M. WIYAGOUDA Bamazi"}
+                </div>
+              </div>
             </div>
-            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>LE DIRECTEUR</div>
-            <div
-              style={{
-                width: "70px",
-                height: "70px",
-                border: "2px dashed #000",
-                borderRadius: "50%",
-                margin: "10px auto",
-              }}
-            ></div>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              style={{ fontWeight: "bold" }}
-            >
-              {data.directeur}
-            </div>
+
           </div>
         </div>
-      </div>
-    </div>
 
-    {/* Footer */}
-    <div
-      style={{
-        fontSize: "8px",
-        textAlign: "center",
-        marginTop: "10px",
-        fontStyle: "italic",
-      }}
-    >
-      Il n'est délivré qu'un seul exemplaire de bulletin en cas de perte,un duplicata pourra
-      être fourni en tant que copie certifiée par l'autorité compétente.
-    </div>
+        {/* Footer */}
+        <div
+          style={{
+            fontSize: "11px",
+            textAlign: "center",
+            marginTop: "6px",
+            fontStyle: "italic",
+            fontFamily: "Times New Roman, serif"
+          }}
+        >
+          Il n'est délivré qu'un seul exemplaire de bulletin. En cas de besoin, l'intéressé pourra en faire une copie certifiée par l'autorité compétente.
+        </div>
   </div>
 </div>);
 };
