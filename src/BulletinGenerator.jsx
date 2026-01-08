@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Printer } from "lucide-react";
-import cipLogo from "../assets/CIP.jpg";
+import CIP from "../assets/CIP.jpg";
 
 const BulletinGenerator = () => {
   const [data, setData] = useState({
@@ -290,7 +290,7 @@ const BulletinGenerator = () => {
               }}
             >
               <img
-                src={cipLogo}
+                src={CIP}
                 alt="Logo CIP"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
