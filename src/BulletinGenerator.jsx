@@ -131,15 +131,18 @@ const BulletinGenerator = () => {
     const hasN2 = !isNaN(n2);
     const hasComp = !isNaN(comp);
 
+    let moyClaVal = 0;
     let moyCla = "";
-    if (hasN1 && hasN2) moyCla = ((n1 + n2) / 2).toFixed(2);
-    else if (hasN1) moyCla = n1.toFixed(2);
-    else if (hasN2) moyCla = n2.toFixed(2);
-
-    let maxNoteClasse = 0;
-    if (hasN1 && hasN2) maxNoteClasse = Math.max(n1, n2);
-    else if (hasN1) maxNoteClasse = n1;
-    else if (hasN2) maxNoteClasse = n2;
+    if (hasN1 && hasN2) {
+      moyClaVal = (n1 + n2) / 2;
+      moyCla = moyClaVal.toFixed(2);
+    } else if (hasN1) {
+      moyClaVal = n1;
+      moyCla = n1.toFixed(2);
+    } else if (hasN2) {
+      moyClaVal = n2;
+      moyCla = n2.toFixed(2);
+    }
 
     let moyTrimVal = 0;
     let ntesDefVal = 0;
@@ -147,7 +150,7 @@ const BulletinGenerator = () => {
     let ntesDefDisplay = "";
 
     if ((hasN1 || hasN2) && hasComp) {
-      moyTrimVal = (maxNoteClasse + comp) / 2;
+      moyTrimVal = (moyClaVal + comp) / 2;
       ntesDefVal = moyTrimVal * s.coef;
 
       moyTrimDisplay = moyTrimVal.toFixed(2);
