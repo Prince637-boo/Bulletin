@@ -30,3 +30,18 @@ Pour déployer l'application sur GitHub Pages, il suffit d'exécuter la commande
 npm run build
 ```
 Le fichier de build est ensuite disponible à l'adresse http://prince637.github.io/Bulletin/.
+
+### Flux de données :
+    1. App.jsx (Router)
+    ↓
+    2. BulletinManager.jsx (Gestion)
+    - Créer classes
+    - Ajouter élèves
+    - Sélectionner élève + trimestre
+    ↓
+    3. App.jsx appelle BulletinGenerator.jsx
+    - Éditer le bulletin
+    - Sauvegarder (retourne à Manager)
+    ↓
+    4. Données sauvegardées dans localStorage
+    - bulletin_classes (toutes les données)

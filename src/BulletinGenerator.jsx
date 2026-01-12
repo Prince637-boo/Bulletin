@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Printer } from "lucide-react";
 import CIP from "./assets/CIP.jpg";
 
-const BulletinGenerator = () => {
-  const [data, setData] = useState({
+const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
+  const [data, setData] = useState(initialData || {
     ministere: "MINISTERE DES ENSEIGNEMENTS\nPRIMAIRE ET SECONDAIRE",
     dre: "DRE-KARA",
     iesg: "IESG-KARA",
@@ -115,7 +115,24 @@ const BulletinGenerator = () => {
     lieu: "Kara",
   });
 
+    // 3. Ajouter un effet pour notifier les changements
+
+  useEffect(() => {
+    if (onDataChange && !readOnly) {
+      onDataChange(data);
+    }
+  }, [data, onDataChange, readOnly]);
+
+  // Synchroniser data avec initialData quand il change
+  useEffect(() => {
+    if (initialData) {
+      setData(initialData);
+    }
+  }, [initialData]);
+
+ // APRÈS:
   const updateSubject = (index, field, value) => {
+    if (readOnly) return;
     const newSubjects = [...data.subjects];
     newSubjects[index] = { ...newSubjects[index], [field]: value };
     setData({ ...data, subjects: newSubjects });
@@ -617,6 +634,7 @@ const BulletinGenerator = () => {
                     type="number"
                     value={s.n1}
                     onChange={(e) => updateSubject(i, "n1", e.target.value)}
+                    disabled={readOnly}
                     style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
                   />
                 </td>
@@ -631,6 +649,7 @@ const BulletinGenerator = () => {
                     type="number"
                     value={s.n2}
                     onChange={(e) => updateSubject(i, "n2", e.target.value)}
+                    disabled={readOnly}
                     style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
                   />
                 </td>
@@ -656,6 +675,7 @@ const BulletinGenerator = () => {
                     type="number"
                     value={s.comp}
                     onChange={(e) => updateSubject(i, "comp", e.target.value)}
+                    disabled={readOnly}
                     style={{ width: "100%", textAlign: "center", fontSize: "10px" }}
                   />
                 </td>
@@ -843,6 +863,7 @@ const BulletinGenerator = () => {
                     {/* Checkbox fonctionnelle */}
                     <input 
                         type="checkbox" 
+                        disabled={readOnly}
                         style={{ width: "16px", height: "16px", margin: 0, cursor: "pointer" }} 
                     />
                   </div>
