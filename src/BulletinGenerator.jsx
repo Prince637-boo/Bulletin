@@ -205,7 +205,8 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
         @media print {
           .print-hidden { display: none !important; }
           body { background: white; }
-          @page { size: A4; margin: 0; }
+          @page { size: A4; margin: 2cm; }
+          body, html { margin: 0; padding: 0; }
         }
         input, textarea { border: none; background: transparent; outline: none; }
         input:focus, textarea:focus { background: #fff3cd; }
@@ -224,7 +225,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
           maxWidth: "210mm",
           margin: "0 auto",
           background: "white",
-          padding: "10mm",
+          padding: "5mm",
           minHeight: "297mm",
           boxSizing: "border-box",
         }}
@@ -262,7 +263,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "10px",
+            marginBottom: "5px",
             alignItems: "flex-start",
           }}
         >
@@ -433,7 +434,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
           style={{
             width: "100%",
             border: "2px solid #000",
-            marginBottom: "10px",
+            marginBottom: "5px",
             fontSize: "11px",
             borderCollapse: "collapse",
           }}
@@ -531,7 +532,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            fontSize: "10px",
+            fontSize: "9px",
             border: "2px solid #000",
           }}
         >
@@ -617,7 +618,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
                   suppressContentEditableWarning
                   style={{
                     border: "1px solid #000",
-                    padding: "5px",
+                    padding: "2px",
                     fontWeight: "bold",
                   }}
                 >
@@ -690,16 +691,19 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
                   {s.moyTrimDisplay}
                 </td>
                 <td
-                  contentEditable
-                  suppressContentEditableWarning
                   style={{
                     border: "1px solid #000",
-                    padding: "5px",
+                    padding: "3px",
                     textAlign: "center",
-                    fontWeight: "bold",
                   }}
                 >
-                  {s.coef}
+                  <input
+                    type="number"
+                    value={s.coef}
+                    onChange={(e) => updateSubject(i, "coef", parseFloat(e.target.value) || 0)}
+                    disabled={readOnly}
+                    style={{ width: "100%", textAlign: "center", fontSize: "10px", fontWeight: "bold" }}
+                  />
                 </td>
                 <td
                   style={{
@@ -1035,9 +1039,9 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
         {/* Footer */}
         <div
           style={{
-            fontSize: "11px",
+            fontSize: "10px",
             textAlign: "center",
-            marginTop: "6px",
+            marginTop: "3px",
             fontStyle: "italic",
             fontFamily: "Times New Roman, serif"
           }}
