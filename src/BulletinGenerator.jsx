@@ -886,7 +886,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
                   suppressContentEditableWarning
                   style={{ textAlign: "center", fontWeight: "bold", fontSize: "12px", marginTop: "auto", marginBottom: "auto", outline: "none", width: "100%" }}
                 >
-                  {data.observation || "Assez-bien"}
+                  {data.observation || ""}
                 </div>
               </div>
 
@@ -913,7 +913,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
                    suppressContentEditableWarning
                    style={{ fontWeight: "bold", fontSize: "11px", outline: "none", borderBottom: "1px dashed #ccc" }}
                  >
-                   {data.titulaire || "M. DOUTI"}
+                   
                  </div>
               </div>
 
@@ -987,7 +987,7 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
                    outline: "none"
                  }}
                >
-                 {data.observationChef || "Assez-bien"}
+                 {data.observationChef || ""}
                </div>
             </div>
 
@@ -1005,7 +1005,11 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
               }}>
                 <div style={{ fontSize: "10px", marginBottom: "5px" }}>
                   Fait à <span contentEditable suppressContentEditableWarning style={{fontWeight: "bold", outline: "none"}}>{data.lieu || "Kara"}</span>, 
-                  le <span contentEditable suppressContentEditableWarning style={{fontWeight: "bold", outline: "none"}}>{data.date || "07/05/2025"}</span>
+                  le <span contentEditable suppressContentEditableWarning style={{                   padding: "10px", 
+                   textAlign: "center", 
+                   fontWeight: "bold", 
+                   fontSize: "10px",
+                   outline: "none"}}>{data.date || ""}</span>
                 </div>
                 
                 <div style={{ fontWeight: "bold", fontSize: "11px", textDecoration: "underline", marginBottom: "10px" }}>
