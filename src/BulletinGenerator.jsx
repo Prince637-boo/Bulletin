@@ -201,12 +201,28 @@ const BulletinGenerator = ({ initialData, onDataChange, readOnly = false }) => {
         fontFamily: "Arial, sans-serif",
       }}
     >
-      <style>{`
+<style>{`
         @media print {
           .print-hidden { display: none !important; }
-          body { background: white; }
-          @page { size: A4; margin: 2cm; }
-          body, html { margin: 0; padding: 0; }
+          body { background: white !important; }
+          @page { 
+            size: A4; 
+            margin: 2mm !important;
+          }
+          body, html { 
+            margin: 0 !important; 
+            padding: 0 !important;
+            width: 210mm !important;
+            height: 297mm !important;
+          }
+          #bulletin-container {
+            margin: 0 !important;
+            padding: 5mm !important;
+            width: 210mm !important;
+            height: 297mm !important;
+            box-sizing: border-box !important;
+            transform: scale(1) !important;
+          }
         }
         input, textarea { border: none; background: transparent; outline: none; }
         input:focus, textarea:focus { background: #fff3cd; }
